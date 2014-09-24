@@ -71,6 +71,11 @@ public class UserListFragment extends ProjectBaseFragment<IUserListView, UserLis
     }
 
     @Override
+    public void showIntermediateProgress(boolean show) {
+        getActivity().setProgressBarIndeterminateVisibility(show);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
     }

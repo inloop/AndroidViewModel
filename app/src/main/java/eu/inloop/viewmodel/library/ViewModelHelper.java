@@ -46,6 +46,14 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         }
     }
 
+    public void onStop() {
+        getViewModel().onStop();
+    }
+
+    public void onStart() {
+        getViewModel().onStart();
+    }
+
     public R getViewModel() {
         return mViewModel;
     }

@@ -16,7 +16,8 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
 
     //Don't persist state variables
     private boolean mLoadingUsers;
-    private AsyncTask mUserLoadTask;
+
+    private int numberOfRunningDeletes = 0;
 
     @Override
     public void initWithView(@NonNull IUserListView view) {
@@ -31,9 +32,13 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
             loadUsers();
         }
 
+        refreshLoading();
+    }
+
+    private void refreshLoading() {
         //loading user
-        if (mUserLoadTask != null && AsyncTask.Status.RUNNING == mUserLoadTask.getStatus()) {
-            //view.showUserProgress(true);
+        if (numberOfRunningDeletes > 0 && getView() != null) {
+            getView().showIntermediateProgress(true);
         }
     }
 
@@ -82,9 +87,11 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
         }
         mLoadedUsers.set(position, "Deleting");
         if (getView() != null) {
+            getView().showIntermediateProgress(true);
             getView().setUsers(mLoadedUsers);
         }
-        mUserLoadTask = new AsyncTask<Void, Void, Void>() {
+        numberOfRunningDeletes++;
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... voids) {
@@ -93,7 +100,12 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                mLoadedUsers.remove(position);
+                if (mLoadedUsers.size() > position) {
+                    mLoadedUsers.remove(position);
+                } else {
+                    mLoadedUsers.remove(0);
+                }
+                numberOfRunningDeletes--;
                 return null;
             }
 
@@ -102,9 +114,22 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
                 super.onPostExecute(aVoid);
                 if (getView() != null) {
                     getView().setUsers(mLoadedUsers);
+                    if (numberOfRunningDeletes == 0) {
+                        getView().showIntermediateProgress(false);
+                    }
                 }
             }
         }.execute();
+    }
+
+    @Override
+    public void onStart() {
+        refreshLoading();
+    }
+
+    @Override
+    public void onStop() {
+        getView().showIntermediateProgress(false);
     }
 
     @Override

@@ -32,4 +32,12 @@ public abstract class AbstractViewModel<T extends IView> {
     public void restoreState(Bundle bundle) {
 
     }
+
+    public void onStop() {
+
+    }
+
+    public void onStart() {
+
+    }
 }

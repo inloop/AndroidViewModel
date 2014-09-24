@@ -36,6 +36,18 @@ public abstract class ProjectBaseFragment<T extends IView, R extends AbstractVie
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mViewModeHelper.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mViewModeHelper.onStop();
+    }
+
+    @Override
     public void onDestroyView() {
         ButterKnife.reset(this);
         mViewModeHelper.onDestroyView(this);

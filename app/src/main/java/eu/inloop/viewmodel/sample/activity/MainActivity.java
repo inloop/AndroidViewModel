@@ -1,6 +1,8 @@
 package eu.inloop.viewmodel.sample.activity;
 
 import android.os.Bundle;
+import android.view.Window;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sample.viewmodel.inloop.eu.viewmodelsample.R;
@@ -13,6 +15,7 @@ public class MainActivity extends ProjectBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
