@@ -1,7 +1,6 @@
-package sample.viewmodel.inloop.eu.viewmodelsample.fragment;
+package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +13,10 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import eu.inloop.viewmodel.library.AbstractViewModel;
 import sample.viewmodel.inloop.eu.viewmodelsample.R;
-import sample.viewmodel.inloop.eu.viewmodelsample.viewmodel.AbstractViewModel;
-import sample.viewmodel.inloop.eu.viewmodelsample.viewmodel.UserListViewModel;
-import sample.viewmodel.inloop.eu.viewmodelsample.viewmodel.iface.IUserListView;
-import sample.viewmodel.inloop.eu.viewmodelsample.viewmodel.iface.IView;
+import eu.inloop.viewmodel.sample.viewmodel.UserListViewModel;
+import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
 
 public class UserListFragment extends ProjectBaseFragment implements IUserListView {
 
@@ -36,20 +34,21 @@ public class UserListFragment extends ProjectBaseFragment implements IUserListVi
     }
 
     @Override
-    protected Class<? extends AbstractViewModel<? extends IView>> getViewModelClass() {
+    public Class<? extends AbstractViewModel> getViewModelClass() {
         return UserListViewModel.class;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_userlist, container, false);
+        final View view = inflater.inflate(R.layout.fragment_userlist, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.inject(this, view);
-        getViewModel().initWithView(this);
         mListview.setAdapter(mAdapter);
     }
 

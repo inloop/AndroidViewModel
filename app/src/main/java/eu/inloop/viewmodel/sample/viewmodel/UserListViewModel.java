@@ -1,4 +1,4 @@
-package sample.viewmodel.inloop.eu.viewmodelsample.viewmodel;
+package eu.inloop.viewmodel.sample.viewmodel;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,17 +7,15 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import sample.viewmodel.inloop.eu.viewmodelsample.TaskStatus;
-import sample.viewmodel.inloop.eu.viewmodelsample.viewmodel.iface.IUserListView;
+import eu.inloop.viewmodel.library.AbstractViewModel;
+import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
 
 public class UserListViewModel extends AbstractViewModel<IUserListView> {
 
     private List<String> mLoadedUsers;
 
-    private TaskStatus mUserLoadState = TaskStatus.NOT_RUNNING;
-    public UserListViewModel() {
-
-    }
+    //Don't persist state variables
+    private boolean mLoadingUsers;
 
     @Override
     public void initWithView(@NonNull IUserListView view) {
@@ -25,15 +23,15 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
 
         if (mLoadedUsers != null) {
             view.setUsers(mLoadedUsers);
-        } else if (mUserLoadState == TaskStatus.RUNNING) {
+        } else if (mLoadingUsers) {
             view.showLoading();
-        } else if (mUserLoadState == TaskStatus.NOT_RUNNING) {
+        } else {
             loadUsers();
         }
     }
 
     private void loadUsers() {
-        mUserLoadState = TaskStatus.RUNNING;
+        mLoadingUsers = true;
         if (getView() != null) {
             getView().showLoading();
         }
@@ -62,7 +60,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
             protected void onPostExecute(List<String> s) {
                 super.onPostExecute(s);
                 mLoadedUsers = s;
-                mUserLoadState = TaskStatus.FINISHED;
+                mLoadingUsers = false;
                 if (getView() != null) {
                     getView().setUsers(s);
                     getView().hideProgress();

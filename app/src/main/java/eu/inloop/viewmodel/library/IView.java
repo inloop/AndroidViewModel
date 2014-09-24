@@ -1,4 +1,4 @@
-package sample.viewmodel.inloop.eu.viewmodelsample.viewmodel.iface;
+package eu.inloop.viewmodel.library;
 
 public interface IView {
 

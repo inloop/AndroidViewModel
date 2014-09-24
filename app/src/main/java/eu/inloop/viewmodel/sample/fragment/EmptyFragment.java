@@ -1,4 +1,4 @@
-package sample.viewmodel.inloop.eu.viewmodelsample.fragment;
+package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

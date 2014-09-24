@@ -1,15 +1,11 @@
-package sample.viewmodel.inloop.eu.viewmodelsample.activity;
+package eu.inloop.viewmodel.sample.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sample.viewmodel.inloop.eu.viewmodelsample.R;
-import sample.viewmodel.inloop.eu.viewmodelsample.fragment.EmptyFragment;
-import sample.viewmodel.inloop.eu.viewmodelsample.fragment.UserListFragment;
+import eu.inloop.viewmodel.sample.fragment.EmptyFragment;
+import eu.inloop.viewmodel.sample.fragment.UserListFragment;
 
 
 public class MainActivity extends ProjectBaseActivity {
@@ -30,4 +26,8 @@ public class MainActivity extends ProjectBaseActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.root_content, new EmptyFragment(), "empty-fragment").addToBackStack(null).commit();
     }
 
+    @OnClick(R.id.button2)
+    public void closeClicked() {
+        finish();
+    }
 }
