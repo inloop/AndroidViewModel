@@ -1,12 +1,15 @@
 package eu.inloop.viewmodel.sample.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,7 @@ import sample.viewmodel.inloop.eu.viewmodelsample.R;
 import eu.inloop.viewmodel.sample.viewmodel.UserListViewModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
 
-public class UserListFragment extends ProjectBaseFragment implements IUserListView {
+public class UserListFragment extends ProjectBaseFragment<IUserListView, UserListViewModel> implements IUserListView {
 
     @InjectView(android.R.id.progress)
     View mProgressView;
@@ -34,7 +37,7 @@ public class UserListFragment extends ProjectBaseFragment implements IUserListVi
     }
 
     @Override
-    public Class<? extends AbstractViewModel> getViewModelClass() {
+    public Class<UserListViewModel> getViewModelClass() {
         return UserListViewModel.class;
     }
 
@@ -50,6 +53,12 @@ public class UserListFragment extends ProjectBaseFragment implements IUserListVi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListview.setAdapter(mAdapter);
+        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                getViewModel().deleteUser(i);
+            }
+        });
     }
 
     @Override
@@ -59,6 +68,21 @@ public class UserListFragment extends ProjectBaseFragment implements IUserListVi
         mAdapter.addAll(users);
         mAdapter.setNotifyOnChange(true);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     @Override

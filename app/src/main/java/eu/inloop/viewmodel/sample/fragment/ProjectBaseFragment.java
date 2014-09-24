@@ -20,7 +20,7 @@ public abstract class ProjectBaseFragment<T extends IView, R extends AbstractVie
         mViewModeHelper.onCreate(savedInstanceState, getViewModelClass());
     }
 
-    public abstract Class<? extends AbstractViewModel<T>> getViewModelClass();
+    public abstract Class<R> getViewModelClass();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -46,5 +46,9 @@ public abstract class ProjectBaseFragment<T extends IView, R extends AbstractVie
     public void onDestroy() {
         mViewModeHelper.onDestroy(this);
         super.onDestroy();
+    }
+
+    public R getViewModel() {
+       return mViewModeHelper.getViewModel();
     }
 }

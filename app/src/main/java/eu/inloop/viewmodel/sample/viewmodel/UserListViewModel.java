@@ -16,17 +16,24 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
 
     //Don't persist state variables
     private boolean mLoadingUsers;
+    private AsyncTask mUserLoadTask;
 
     @Override
     public void initWithView(@NonNull IUserListView view) {
         super.initWithView(view);
 
+        //downloading list of users
         if (mLoadedUsers != null) {
             view.setUsers(mLoadedUsers);
         } else if (mLoadingUsers) {
             view.showLoading();
         } else {
             loadUsers();
+        }
+
+        //loading user
+        if (mUserLoadTask != null && AsyncTask.Status.RUNNING == mUserLoadTask.getStatus()) {
+            //view.showUserProgress(true);
         }
     }
 
@@ -64,6 +71,37 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
                 if (getView() != null) {
                     getView().setUsers(s);
                     getView().hideProgress();
+                }
+            }
+        }.execute();
+    }
+
+    public void deleteUser(final int position) {
+        if (position > mLoadedUsers.size() - 1) {
+            return;
+        }
+        mLoadedUsers.set(position, "Deleting");
+        if (getView() != null) {
+            getView().setUsers(mLoadedUsers);
+        }
+        mUserLoadTask = new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mLoadedUsers.remove(position);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if (getView() != null) {
+                    getView().setUsers(mLoadedUsers);
                 }
             }
         }.execute();
