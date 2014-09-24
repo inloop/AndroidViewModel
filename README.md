@@ -14,7 +14,8 @@ A unique global ID is generated for the first time your Fragment or Activity is 
 The ViewModel is discarded once the Fragment/Activity is not reachaeable anymore (activity is finished or fragment permanently removed).
 
 <b>Sample Workflow</b>:
-1. Fragment is show to user. A ViewModel is assigned.
+
+1. <small>Fragment is show to user. A ViewModel is assigned.</small>
 2. Fragment notifies the View that it's ready. 
 3. ViewModel starts the async task to load data. Tells the view to show progress.
 4. User rotates the display. The ViewModel continues with the loading part.
