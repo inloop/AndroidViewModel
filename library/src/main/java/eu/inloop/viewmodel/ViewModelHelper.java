@@ -95,7 +95,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
     public void onSaveInstanceState(Bundle bundle) {
         bundle.putString("identifier", mScreenId);
-        mViewModel.saveState(bundle);
+        if (mViewModel != null) {
+            mViewModel.saveState(bundle);
+        }
     }
 
     protected boolean removeViewModel() {
