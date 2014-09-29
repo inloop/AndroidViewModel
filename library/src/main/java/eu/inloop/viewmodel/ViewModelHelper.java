@@ -13,6 +13,10 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     private R mViewModel;
 
     public void onCreate(Bundle savedInstanceState, Class<? extends AbstractViewModel<T>> viewModelClass) {
+        if (mViewModel == null) {
+            //no viewmodel for this fragment
+            return;
+        }
         if (savedInstanceState == null) {
             mScreenId = UUID.randomUUID().toString();
         } else {
@@ -28,17 +32,29 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     }
 
     public void initWithView(T view) {
+        if (mViewModel == null) {
+            //no viewmodel for this fragment
+            return;
+        }
         mViewModel.initWithView(view);
     }
 
     public void onDestroyView(Fragment fragment) {
-        getViewModel().clearView();
+        if (mViewModel == null) {
+            //no viewmodel for this fragment
+            return;
+        }
+        mViewModel.clearView();
         if (fragment.getActivity() != null && fragment.getActivity().isFinishing()) {
             removeViewModel();
         }
     }
 
     public void onDestroy(Fragment fragment) {
+        if (mViewModel == null) {
+            //no viewmodel for this fragment
+            return;
+        }
         if (fragment.getActivity() != null && fragment.getActivity().isFinishing()) {
             removeViewModel();
         } else if (fragment.isRemoving()) {
@@ -48,17 +64,29 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     }
 
     public void onDestroy(Activity activity) {
+        if (mViewModel == null) {
+            //no viewmodel for this fragment
+            return;
+        }
         if (activity.isFinishing()) {
             removeViewModel();
         }
     }
 
     public void onStop() {
-        getViewModel().onStop();
+        if (mViewModel == null) {
+            //no viewmodel for this fragment
+            return;
+        }
+        mViewModel.onStop();
     }
 
     public void onStart() {
-        getViewModel().onStart();
+        if (mViewModel == null) {
+            //no viewmodel for this fragment
+            return;
+        }
+        mViewModel.onStart();
     }
 
     public R getViewModel() {
@@ -72,7 +100,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
     protected boolean removeViewModel() {
         boolean removed = ViewModelService.getInstance().remove(mScreenId);
-        getViewModel().onModelRemoved();
+        mViewModel.onModelRemoved();
         return removed;
     }
 }
