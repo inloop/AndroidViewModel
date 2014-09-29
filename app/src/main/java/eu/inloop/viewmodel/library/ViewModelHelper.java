@@ -1,5 +1,6 @@
 package eu.inloop.viewmodel.library;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,6 +47,12 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         }
     }
 
+    public void onDestroy(Activity activity) {
+        if (activity.isFinishing()) {
+            removeViewModel();
+        }
+    }
+
     public void onStop() {
         getViewModel().onStop();
     }
@@ -63,7 +70,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         mViewModel.saveState(bundle);
     }
 
-    private boolean removeViewModel() {
-        return ViewModelService.getInstance().remove(mScreenId);
+    protected boolean removeViewModel() {
+        boolean removed = ViewModelService.getInstance().remove(mScreenId);
+        getViewModel().onModelRemoved();
+        return removed;
     }
 }

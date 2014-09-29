@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import butterknife.ButterKnife;
-import eu.inloop.viewmodel.library.AbstractViewModel;
 import eu.inloop.viewmodel.library.ViewModelHelper;
+import eu.inloop.viewmodel.library.AbstractViewModel;
 import eu.inloop.viewmodel.library.IView;
 
 public abstract class ProjectBaseFragment<T extends IView, R extends AbstractViewModel<T>> extends Fragment {

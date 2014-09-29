@@ -145,4 +145,10 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
             bundle.putStringArrayList("userlist", new ArrayList<String>(mLoadedUsers));
         }
     }
+
+    @Override
+    public void onModelRemoved() {
+        super.onModelRemoved();
+        //use this to cancel any planned requests
+    }
 }

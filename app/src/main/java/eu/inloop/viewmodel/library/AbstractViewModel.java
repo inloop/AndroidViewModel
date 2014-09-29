@@ -40,4 +40,12 @@ public abstract class AbstractViewModel<T extends IView> {
     public void onStart() {
 
     }
+
+    /**
+     * Called when there parent fragment or view is already gone and destroyed.
+     * This is a good place to empty any planned tasks that are useless without a UI.
+     */
+    public void onModelRemoved() {
+
+    }
 }
