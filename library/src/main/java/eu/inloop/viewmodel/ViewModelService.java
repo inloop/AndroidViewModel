@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ViewModelService {
 
     private static volatile ViewModelService sInstance;
-    public final ConcurrentHashMap<String, AbstractViewModel<? extends IView>> mViewModelCache;
+    private final ConcurrentHashMap<String, AbstractViewModel<? extends IView>> mViewModelCache;
 
     @NonNull
     public static ViewModelService getInstance() {
@@ -22,7 +22,7 @@ public class ViewModelService {
     }
 
     private ViewModelService() {
-        mViewModelCache = new ConcurrentHashMap<String, AbstractViewModel<? extends IView>>();
+        mViewModelCache = new ConcurrentHashMap<>();
     }
 
     public boolean remove(String key) {
@@ -33,25 +33,25 @@ public class ViewModelService {
         public final AbstractViewModel<T> viewModel;
         public final boolean wasCreated;
 
-        private ViewModelWrapper(AbstractViewModel<T> mViewModel, boolean mWasCreated) {
+        private ViewModelWrapper(@NonNull AbstractViewModel<T> mViewModel, boolean mWasCreated) {
             this.viewModel = mViewModel;
             this.wasCreated = mWasCreated;
         }
     }
 
-    public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(String key, Class<? extends AbstractViewModel<T>> viewModelClass) {
+    @SuppressWarnings("unchecked")
+    @NonNull
+    public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(@NonNull String key, @NonNull Class<? extends AbstractViewModel<T>> viewModelClass) {
         AbstractViewModel<T> instance = (AbstractViewModel<T>) mViewModelCache.get(key);
         if (instance != null) {
-            return new ViewModelWrapper<T>(instance, false);
+            return new ViewModelWrapper<>(instance, false);
         }
 
         try {
             instance = viewModelClass.newInstance();
             mViewModelCache.put(key, instance);
-            return new ViewModelWrapper<T>(instance, true);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+            return new ViewModelWrapper<>(instance, true);
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
