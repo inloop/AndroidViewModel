@@ -13,8 +13,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     private R mViewModel;
 
     public void onCreate(Bundle savedInstanceState, Class<? extends AbstractViewModel<T>> viewModelClass) {
-        if (mViewModel == null) {
+        if (viewModelClass == null) {
             //no viewmodel for this fragment
+            mViewModel = null;
             return;
         }
         if (savedInstanceState == null) {
@@ -95,7 +96,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
     public void onSaveInstanceState(Bundle bundle) {
         bundle.putString("identifier", mScreenId);
-        mViewModel.saveState(bundle);
+        if (mViewModel != null) {
+            mViewModel.saveState(bundle);
+        }
     }
 
     protected boolean removeViewModel() {
