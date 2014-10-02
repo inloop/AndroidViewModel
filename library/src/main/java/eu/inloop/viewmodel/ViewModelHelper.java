@@ -2,6 +2,8 @@ package eu.inloop.viewmodel;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -12,7 +14,8 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     private String mScreenId;
     private R mViewModel;
 
-    public void onCreate(Bundle savedInstanceState, Class<? extends AbstractViewModel<T>> viewModelClass) {
+    public void onCreate(@NonNull Activity activity, @Nullable Bundle savedInstanceState,
+                         @NonNull Class<? extends AbstractViewModel<T>> viewModelClass) {
         if (viewModelClass == null) {
             //no viewmodel for this fragment
             mViewModel = null;
@@ -24,7 +27,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
             mScreenId = savedInstanceState.getString("identifier");
         }
 
-        final ViewModelService.ViewModelWrapper<T> viewModelWrapper = ViewModelService.getInstance().getViewModel(mScreenId, viewModelClass);
+        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = getViewModelProvider(activity).getViewModelProvider().getViewModel(mScreenId, viewModelClass);
         mViewModel = (R) viewModelWrapper.viewModel;
         if (savedInstanceState != null && viewModelWrapper.wasCreated) {
             Log.e("model", "Application recreated by system - restoring viewmodel");
@@ -40,37 +43,37 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         mViewModel.initWithView(view);
     }
 
-    public void onDestroyView(Fragment fragment) {
+    public void onDestroyView(@NonNull Fragment fragment) {
         if (mViewModel == null) {
             //no viewmodel for this fragment
             return;
         }
         mViewModel.clearView();
         if (fragment.getActivity() != null && fragment.getActivity().isFinishing()) {
-            removeViewModel();
+            removeViewModel(fragment.getActivity());
         }
     }
 
-    public void onDestroy(Fragment fragment) {
+    public void onDestroy(@NonNull Fragment fragment) {
         if (mViewModel == null) {
             //no viewmodel for this fragment
             return;
         }
-        if (fragment.getActivity() != null && fragment.getActivity().isFinishing()) {
-            removeViewModel();
+        if (fragment.getActivity().isFinishing()) {
+            removeViewModel(fragment.getActivity());
         } else if (fragment.isRemoving()) {
             Log.d("mode", "Removing viewmodel - fragment replaced");
-            removeViewModel();
+            removeViewModel(fragment.getActivity());
         }
     }
 
-    public void onDestroy(Activity activity) {
+    public void onDestroy(@NonNull Activity activity) {
         if (mViewModel == null) {
             //no viewmodel for this fragment
             return;
         }
         if (activity.isFinishing()) {
-            removeViewModel();
+            removeViewModel(activity);
         }
     }
 
@@ -94,15 +97,22 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         return mViewModel;
     }
 
-    public void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(@Nullable Bundle bundle) {
         bundle.putString("identifier", mScreenId);
         if (mViewModel != null) {
             mViewModel.saveState(bundle);
         }
     }
 
-    protected boolean removeViewModel() {
-        boolean removed = ViewModelService.getInstance().remove(mScreenId);
+    private IViewModelProvider getViewModelProvider(@NonNull Activity activity) {
+        if (!(activity instanceof IViewModelProvider)) {
+            throw new IllegalStateException("Your activity must implement IViewModelProvider");
+        }
+        return ((IViewModelProvider)activity);
+    }
+
+    protected boolean removeViewModel(@NonNull Activity activity) {
+        boolean removed = getViewModelProvider(activity).getViewModelProvider().remove(mScreenId);
         mViewModel.onModelRemoved();
         return removed;
     }

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import eu.inloop.viewmodel.IView;
+
 public abstract class AbstractViewModel<T extends IView> {
 
     @Nullable

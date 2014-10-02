@@ -1,35 +1,28 @@
 package eu.inloop.viewmodel;
-
 import android.support.annotation.NonNull;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
 
-public class ViewModelService {
+/**
+ * Create and keep this class inside your Activity. Store it
+ * in {@link android.support.v4.app.FragmentActivity#onRetainCustomNonConfigurationInstance()
+ * and restore in {@link android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)} before
+ * calling the super implemenentation.
+ */
+public class ViewModelProvider {
 
-    private static volatile ViewModelService sInstance;
-    private final ConcurrentHashMap<String, AbstractViewModel<? extends IView>> mViewModelCache;
+    private final HashMap<String, AbstractViewModel<? extends IView>> mViewModelCache;
 
-    @NonNull
-    public static ViewModelService getInstance() {
-        if (sInstance == null) {
-            synchronized (ViewModelService.class) {
-                if (sInstance == null) {
-                    sInstance = new ViewModelService();
-                }
-            }
-        }
-        return sInstance;
+    public ViewModelProvider() {
+        mViewModelCache = new HashMap<>();
     }
 
-    private ViewModelService() {
-        mViewModelCache = new ConcurrentHashMap<>();
-    }
-
-    public boolean remove(String key) {
+    boolean remove(@NonNull String key) {
         return mViewModelCache.remove(key) != null;
     }
 
     public static class ViewModelWrapper<T extends IView> {
+        @NonNull
         public final AbstractViewModel<T> viewModel;
         public final boolean wasCreated;
 
@@ -37,6 +30,13 @@ public class ViewModelService {
             this.viewModel = mViewModel;
             this.wasCreated = mWasCreated;
         }
+    }
+
+    /**
+     * Call this in {@link android.app.Activity#onStop()} if {@link android.app.Activity#isFinishing()}
+     */
+    public void removeAllViewModels() {
+        mViewModelCache.clear();
     }
 
     @SuppressWarnings("unchecked")
