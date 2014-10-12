@@ -13,6 +13,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
     private String mScreenId;
     private R mViewModel;
+    private boolean mModelRemoved;
 
     public void onCreate(@NonNull Activity activity, @Nullable Bundle savedInstanceState,
                          @NonNull Class<? extends AbstractViewModel<T>> viewModelClass) {
@@ -30,7 +31,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = getViewModelProvider(activity).getViewModelProvider().getViewModel(mScreenId, viewModelClass);
         mViewModel = (R) viewModelWrapper.viewModel;
         if (savedInstanceState != null && viewModelWrapper.wasCreated) {
-            Log.e("model", "Application recreated by system - restoring viewmodel");
+            Log.d("model", "Fragment recreated by system - restoring viewmodel");
             mViewModel.restoreState(savedInstanceState);
         }
     }
@@ -112,8 +113,13 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     }
 
     protected boolean removeViewModel(@NonNull Activity activity) {
-        boolean removed = getViewModelProvider(activity).getViewModelProvider().remove(mScreenId);
-        mViewModel.onModelRemoved();
-        return removed;
+        if (!mModelRemoved) {
+            boolean removed = getViewModelProvider(activity).getViewModelProvider().remove(mScreenId);
+            mViewModel.onModelRemoved();
+            mModelRemoved = true;
+            return removed;
+        } else {
+            return false;
+        }
     }
 }
