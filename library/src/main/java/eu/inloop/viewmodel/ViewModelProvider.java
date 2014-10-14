@@ -49,6 +49,7 @@ public class ViewModelProvider {
 
         try {
             instance = viewModelClass.newInstance();
+            instance.setUniqueIdentifier(key);
             mViewModelCache.put(key, instance);
             return new ViewModelWrapper<>(instance, true);
         } catch (InstantiationException | IllegalAccessException e) {

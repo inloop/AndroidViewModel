@@ -8,8 +8,24 @@ import eu.inloop.viewmodel.IView;
 
 public abstract class AbstractViewModel<T extends IView> {
 
+    @NonNull
+    private String mUniqueIdentifier;
+
     @Nullable
     private T mView;
+
+    void setUniqueIdentifier(String uniqueIdentifier) {
+        mUniqueIdentifier = uniqueIdentifier;
+    }
+
+    /**
+     *
+     * @return An app unique identifier for the current viewmodel instance (will be kept during orientation
+     * change). This identifier will be reset in case the corresponding activity is killed.
+     */
+    public String getUniqueIdentifier() {
+        return mUniqueIdentifier;
+    }
 
     public void initWithView(@NonNull T view) {
         mView = view;
