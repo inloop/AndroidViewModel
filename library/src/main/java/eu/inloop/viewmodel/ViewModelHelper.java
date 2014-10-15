@@ -73,6 +73,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
             //no viewmodel for this fragment
             return;
         }
+        mViewModel.clearView();
         if (activity.isFinishing()) {
             removeViewModel(activity);
         }
