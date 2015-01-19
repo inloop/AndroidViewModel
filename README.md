@@ -24,5 +24,20 @@ The ViewModel is discarded once the Fragment/Activity is not reachaeable anymore
 7. ViewModel finishes the async task and tells the Fragment to show the data.
 8. User leaves the Activity, the Fragment is destroyed and the ViewModel is removed.
 
+Download
+--------
 
-<b>STATUS:</b> Under heavy development, don't use in real projects yet.
+Grab via Gradle:
+```groovy
+compile 'eu.inloop.androidviewmodel:0.1'
+```
+or Maven:
+```xml
+<dependency>
+  <groupId>eu.inloop</groupId>
+  <artifactId>androidviewmodel</artifactId>
+  <version>0.1</version>
+</dependency>
+```
+
+<b>Development status:</b> Used internally at company on some production applications. Library is under development and API changes might occur anytime. But it should be usuable at this point without any big issues (like memory leaks).
