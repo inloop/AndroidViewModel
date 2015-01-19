@@ -13,4 +13,7 @@ allprojects {
     repositories {
         jcenter()
     }
+	
+    group = 'eu.inloop'
+    version = VERSION_NAME
 }

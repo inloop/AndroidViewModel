@@ -1,14 +1,15 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    buildToolsVersion '21.1.1'
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 20
         versionCode 1
-        versionName "1.0"
+        versionName VERSION_NAME
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -26,4 +27,34 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:20.0.0'
     compile 'com.android.support:support-annotations:20.0.0'
+}
+
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+ 
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+ 
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+ 
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.groupId = 'eu.inloop'
+        pom.artifactId = 'androidviewmodel'
+        pom.version = VERSION_NAME
+		repository(url: "file://${System.env.HOME}/.m2/repository")
+    }
 }
