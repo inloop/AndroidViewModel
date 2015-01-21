@@ -29,7 +29,7 @@ Download
 
 Grab via Gradle:
 ```groovy
-compile 'eu.inloop.androidviewmodel:0.1'
+compile 'eu.inloop:androidviewmodel:0.1'
 ```
 or Maven:
 ```xml
