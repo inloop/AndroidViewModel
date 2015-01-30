@@ -2,41 +2,50 @@ package eu.inloop.viewmodel.base;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
-import eu.inloop.viewmodel.IViewModelProvider;
-import eu.inloop.viewmodel.ViewModelProvider;
+import eu.inloop.viewmodel.AbstractViewModel;
+import eu.inloop.viewmodel.IView;
+import eu.inloop.viewmodel.ViewModelHelper;
 
-public class ViewModelBaseActivity extends FragmentActivity implements IViewModelProvider {
+public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends FragmentActivity implements IView {
 
-    private ViewModelProvider mViewModelService;
+    private ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //This code must be execute prior to super.onCreate()
-        if (getLastCustomNonConfigurationInstance() == null) {
-            mViewModelService = new ViewModelProvider();
-        } else {
-            mViewModelService = (ViewModelProvider) getLastCustomNonConfigurationInstance();
-        }
         super.onCreate(savedInstanceState);
+        mViewModeHelper.onCreate(savedInstanceState, getViewModelClass());
+        mViewModeHelper.initWithView((T) this);
+    }
+
+    public abstract Class<R> getViewModelClass();
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mViewModeHelper.onSaveInstanceState(outState);
     }
 
     @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return mViewModelService;
+    public void onStart() {
+        super.onStart();
+        mViewModeHelper.onStart();
     }
 
     @Override
-    public ViewModelProvider getViewModelProvider() {
-        return mViewModelService;
-    }
-
-    @Override
-    protected void onStop() {
-        if (isFinishing()) {
-            mViewModelService.removeAllViewModels();
-        }
+    public void onStop() {
         super.onStop();
+        mViewModeHelper.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        mViewModeHelper.onDestroy(this);
+        super.onDestroy();
+    }
+
+    @SuppressWarnings("unused")
+    public R getViewModel() {
+        return mViewModeHelper.getViewModel();
     }
 }

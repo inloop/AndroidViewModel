@@ -24,6 +24,11 @@ public class MainActivity extends ProjectBaseActivity {
         }
     }
 
+    @Override
+    public Class getViewModelClass() {
+        return null;
+    }
+
     @OnClick(R.id.button1)
     public void onOpenFragmentClicked() {
         getSupportFragmentManager().beginTransaction().replace(R.id.root_content, new EmptyFragment(), "empty-fragment").addToBackStack(null).commit();

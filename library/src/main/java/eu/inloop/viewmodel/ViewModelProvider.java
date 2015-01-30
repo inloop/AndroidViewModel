@@ -11,13 +11,19 @@ import java.util.HashMap;
  */
 public class ViewModelProvider {
 
+    private static final ViewModelProvider sInstance = new ViewModelProvider();
+
     private final HashMap<String, AbstractViewModel<? extends IView>> mViewModelCache;
 
-    public ViewModelProvider() {
+    private ViewModelProvider() {
         mViewModelCache = new HashMap<>();
     }
 
-    boolean remove(@NonNull String key) {
+    public static ViewModelProvider getInstance() {
+        return sInstance;
+    }
+
+    public boolean remove(@NonNull String key) {
         return mViewModelCache.remove(key) != null;
     }
 

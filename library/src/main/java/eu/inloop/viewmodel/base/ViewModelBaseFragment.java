@@ -11,12 +11,12 @@ import eu.inloop.viewmodel.ViewModelHelper;
 
 public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractViewModel<T>> extends Fragment {
 
-    private ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<T, R>();
+    private ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(getActivity(), savedInstanceState, getViewModelClass());
+        mViewModeHelper.onCreate(savedInstanceState, getViewModelClass());
     }
 
     public abstract Class<R> getViewModelClass();
@@ -57,6 +57,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
         super.onDestroy();
     }
 
+    @SuppressWarnings("unused")
     public R getViewModel() {
        return mViewModeHelper.getViewModel();
     }
