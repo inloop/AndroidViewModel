@@ -5,17 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
-    private String mScreenId;
+    private int mScreenId;
     private R mViewModel;
     private boolean mModelRemoved;
     private boolean mOnSaveInstanceCalled;
+    private static AtomicInteger sModelIndex = new AtomicInteger(0);
 
     /**
      * Call from {@link android.app.Activity#onCreate(android.os.Bundle)} or
@@ -33,9 +33,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
         // screen (activity/fragment) created for first time, attach unique ID
         if (savedInstanceState == null) {
-            mScreenId = UUID.randomUUID().toString();
+            mScreenId = sModelIndex.incrementAndGet();
         } else {
-            mScreenId = savedInstanceState.getString("identifier");
+            mScreenId = savedInstanceState.getInt("identifier");
             mOnSaveInstanceCalled = false;
         }
 
@@ -151,21 +151,18 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      * @param bundle
      */
     public void onSaveInstanceState(@NonNull Bundle bundle) {
-        bundle.putString("identifier", mScreenId);
+        bundle.putInt("identifier", mScreenId);
         if (mViewModel != null) {
             mViewModel.saveState(bundle);
             mOnSaveInstanceCalled = true;
         }
     }
 
-    private boolean removeViewModel() {
+    private void removeViewModel() {
         if (!mModelRemoved) {
-            boolean removed = ViewModelProvider.getInstance().remove(mScreenId);
+            ViewModelProvider.getInstance().remove(mScreenId);
             mViewModel.onModelRemoved();
             mModelRemoved = true;
-            return removed;
-        } else {
-            return false;
         }
     }
 }
