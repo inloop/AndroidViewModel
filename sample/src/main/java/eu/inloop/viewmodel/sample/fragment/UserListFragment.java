@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
+import eu.inloop.viewmodel.sample.SampleApplication;
 import eu.inloop.viewmodel.sample.viewmodel.UserListViewModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
 
@@ -111,5 +114,14 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     @Override
     public void hideProgress() {
         mProgressView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // watch for memory leaks
+        RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }
