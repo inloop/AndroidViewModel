@@ -1,7 +1,6 @@
 package eu.inloop.viewmodel.base;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import eu.inloop.viewmodel.AbstractViewModel;
@@ -10,12 +9,13 @@ import eu.inloop.viewmodel.ViewModelHelper;
 
 public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends AppCompatActivity implements IView {
 
-    private ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
+    private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModeHelper.onCreate(savedInstanceState, getViewModelClass());
+        //noinspection unchecked
         mViewModeHelper.initWithView((T) this);
     }
 

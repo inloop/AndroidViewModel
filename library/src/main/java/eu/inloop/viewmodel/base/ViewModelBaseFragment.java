@@ -11,7 +11,7 @@ import eu.inloop.viewmodel.ViewModelHelper;
 
 public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractViewModel<T>> extends Fragment {
 
-    private ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
+    private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //noinspection unchecked
         mViewModeHelper.initWithView((T) this);
     }
 

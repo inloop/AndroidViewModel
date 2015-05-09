@@ -38,22 +38,26 @@ public abstract class AbstractViewModel<T extends IView> {
         mView = null;
     }
 
+    @SuppressWarnings("EmptyMethod")
     public void saveState(Bundle bundle) {
 
     }
 
     /**
      * Will be called only in case the system is killed due to low memory and restored
-     * @param bundle
+     * @param bundle - bundle with saved state
      */
+    @SuppressWarnings("EmptyMethod")
     public void restoreState(Bundle bundle) {
 
     }
 
+    @SuppressWarnings("EmptyMethod")
     public void onStop() {
 
     }
 
+    @SuppressWarnings("EmptyMethod")
     public void onStart() {
 
     }
@@ -62,6 +66,7 @@ public abstract class AbstractViewModel<T extends IView> {
      * Called when there parent fragment or view is already gone and destroyed.
      * This is a good place to empty any planned tasks that are useless without a UI.
      */
+    @SuppressWarnings("EmptyMethod")
     public void onModelRemoved() {
 
     }

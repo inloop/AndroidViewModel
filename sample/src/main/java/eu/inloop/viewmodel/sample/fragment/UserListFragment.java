@@ -91,21 +91,6 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     }
     
     @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
     public void showLoading(float progress) {
         mProgressView.setVisibility(View.VISIBLE);
         mProgressText.setText((int)(progress * 100) + "%");

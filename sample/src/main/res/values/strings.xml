@@ -8,5 +8,6 @@
         The result will be kept in the ViewModel memory. You can also schedule item deletion by clicking on a row.</string>
     <string name="userlist_open_next_fragment">Open next fragment in backstack</string>
     <string name="userlist_close_activity">Restart activity</string>
+    <string name="empty_fragment_text">Test</string>
 
 </resources>

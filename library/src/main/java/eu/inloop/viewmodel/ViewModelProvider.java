@@ -2,8 +2,6 @@ package eu.inloop.viewmodel;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
-import java.util.HashMap;
-
 /**
  * Create and keep this class inside your Activity. Store it
  * in {@link android.support.v4.app.FragmentActivity#onRetainCustomNonConfigurationInstance()
@@ -28,13 +26,6 @@ public class ViewModelProvider {
         mViewModelCache.remove(modelIndex);
     }
 
-    /**
-     * Call this in {@link android.app.Activity#onStop()} if {@link android.app.Activity#isFinishing()}
-     */
-    public synchronized void removeAllViewModels() {
-        mViewModelCache.clear();
-    }
-
     @SuppressWarnings("unchecked")
     @NonNull
     public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(int modelIndex, @NonNull Class<? extends AbstractViewModel<T>> viewModelClass) {
@@ -48,8 +39,8 @@ public class ViewModelProvider {
             instance.setUniqueIdentifier(modelIndex);
             mViewModelCache.put(modelIndex, instance);
             return new ViewModelWrapper<>(instance, true);
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 

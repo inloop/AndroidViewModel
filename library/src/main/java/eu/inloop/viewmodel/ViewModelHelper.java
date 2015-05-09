@@ -15,7 +15,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     private R mViewModel;
     private boolean mModelRemoved;
     private boolean mOnSaveInstanceCalled;
-    private static AtomicInteger sModelIndex = new AtomicInteger(0);
+    private static final AtomicInteger sModelIndex = new AtomicInteger(0);
 
     /**
      * Call from {@link android.app.Activity#onCreate(android.os.Bundle)} or
@@ -41,11 +41,14 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
         // get model instance for this screen
         final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = ViewModelProvider.getInstance().getViewModel(mScreenId, viewModelClass);
+        //noinspection unchecked
         mViewModel = (R) viewModelWrapper.viewModel;
 
         // detect that the system has killed the app - saved instance is not null, but the model was recreated
         if (savedInstanceState != null && viewModelWrapper.wasCreated) {
-            Log.d("model", "Fragment recreated by system - restoring viewmodel");
+            if (BuildConfig.DEBUG) {
+                Log.d("model", "Fragment recreated by system - restoring viewmodel");
+            }
             mViewModel.restoreState(savedInstanceState);
         }
     }
@@ -95,7 +98,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         } else if (fragment.isRemoving() && !mOnSaveInstanceCalled) {
             // The fragment can be still in backstack even if isRemoving() is true.
             // We check mOnSaveInstanceCalled - if this was not called then the fragment is totally removed.
-            Log.d("mode", "Removing viewmodel - fragment replaced");
+            if (BuildConfig.DEBUG) {
+                Log.d("mode", "Removing viewmodel - fragment replaced");
+            }
             removeViewModel();
         }
     }
