@@ -55,7 +55,7 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         headerView.findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.root_content, new EmptyFragment(), "empty-fragment").addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.root_content, SampleBundleFragment.newInstance(1234), "empty-fragment").addToBackStack(null).commit();
             }
         });
         headerView.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     @Override
     public void showLoading(float progress) {
         mProgressView.setVisibility(View.VISIBLE);
-        mProgressText.setText((int)(progress * 100) + "%");
+        mProgressText.setText((int) (progress * 100) + "%");
     }
 
     @Override

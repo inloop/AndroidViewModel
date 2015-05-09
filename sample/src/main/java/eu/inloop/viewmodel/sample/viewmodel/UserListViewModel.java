@@ -3,6 +3,7 @@ package eu.inloop.viewmodel.sample.viewmodel;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,17 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
     //Don't persist state variables
     private boolean mLoadingUsers;
 
-    private int mNumberOfRunningDeletes = 0;
     private float mCurrentLoadingProgress = 0;
+
+    @Override
+    public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
+        super.onCreate(arguments, savedInstanceState);
+
+        //this will be only not null in case the application was killed due to low memory
+        if (savedInstanceState != null) {
+            mLoadedUsers = savedInstanceState.getStringArrayList("userlist");
+        }
+    }
 
     @Override
     public void initWithView(@NonNull IUserListView view) {
@@ -90,7 +100,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
         if (getView() != null) {
             getView().showUsers(mLoadedUsers);
         }
-        mNumberOfRunningDeletes++;
+
         final String itemToDelete = mLoadedUsers.get(position);
         new AsyncTask<Void, Void, Void>() {
 
@@ -102,7 +112,6 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
                    //
                 }
                 mLoadedUsers.remove(itemToDelete);
-                mNumberOfRunningDeletes--;
                 return null;
             }
 
@@ -116,12 +125,6 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-
-    @Override
-    public void restoreState(Bundle bundle) {
-        super.restoreState(bundle);
-        mLoadedUsers = bundle.getStringArrayList("userlist");
-    }
 
     @Override
     public void saveState(Bundle bundle) {

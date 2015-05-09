@@ -14,7 +14,7 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(savedInstanceState, getViewModelClass());
+        mViewModeHelper.onCreate(savedInstanceState, getViewModelClass(), getIntent().getExtras());
         //noinspection unchecked
         mViewModeHelper.initWithView((T) this);
     }
