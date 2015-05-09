@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Sample</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">ViewModel sample</string>
     <string name="action_settings">Settings</string>
+    <string name="header_text">The asynchronous loading takes 7 seconds to finish, you can rotate the screen or open new
+        fragments in the backstack and it will not interrupt or restart the loading.
+        The result will be kept in the ViewModel memory. You can also schedule item deletion by clicking on a row.</string>
+    <string name="userlist_open_next_fragment">Open next fragment in backstack</string>
+    <string name="userlist_close_activity">Restart activity</string>
 
 </resources>

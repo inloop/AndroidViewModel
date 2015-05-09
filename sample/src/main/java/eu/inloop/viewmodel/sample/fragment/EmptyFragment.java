@@ -1,5 +1,6 @@
 package eu.inloop.viewmodel.sample.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,7 @@ import android.view.ViewGroup;
 import eu.inloop.viewmodel.sample.R;
 
 
-public class EmptyFragment extends Fragment{
+public class EmptyFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

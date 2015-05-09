@@ -8,20 +8,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.viewmodel.UserListViewModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
 
-public class UserListFragment extends ProjectBaseFragment<IUserListView, UserListViewModel> implements IUserListView {
+public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserListViewModel> implements IUserListView {
 
     @InjectView(android.R.id.progress)
     View mProgressView;
+    @InjectView(R.id.progress_text)
+    TextView mProgressText;
     @InjectView(android.R.id.list)
     ListView mListview;
 
@@ -43,6 +47,22 @@ public class UserListFragment extends ProjectBaseFragment<IUserListView, UserLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_userlist, container, false);
         ButterKnife.inject(this, view);
+
+        final View headerView = inflater.inflate(R.layout.view_header_info, null, false);
+        headerView.findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.root_content, new EmptyFragment(), "empty-fragment").addToBackStack(null).commit();
+            }
+        });
+        headerView.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+                getActivity().startActivity(getActivity().getIntent());
+            }
+        });
+        mListview.addHeaderView(headerView, null, false);
         return view;
     }
 
@@ -53,25 +73,20 @@ public class UserListFragment extends ProjectBaseFragment<IUserListView, UserLis
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                getViewModel().deleteUser(i);
+                getViewModel().deleteUser(i - mListview.getHeaderViewsCount());
             }
         });
     }
 
     @Override
-    public void setUsers(List<String> users) {
+    public void showUsers(List<String> users) {
         mAdapter.setNotifyOnChange(false);
         mAdapter.clear();
         mAdapter.addAll(users);
         mAdapter.setNotifyOnChange(true);
         mAdapter.notifyDataSetChanged();
     }
-
-    @Override
-    public void showIntermediateProgress(boolean show) {
-        getActivity().setProgressBarIndeterminateVisibility(show);
-    }
-
+    
     @Override
     public void onStop() {
         super.onStop();
@@ -88,8 +103,9 @@ public class UserListFragment extends ProjectBaseFragment<IUserListView, UserLis
     }
 
     @Override
-    public void showLoading() {
+    public void showLoading(float progress) {
         mProgressView.setVisibility(View.VISIBLE);
+        mProgressText.setText((int)(progress * 100) + "%");
     }
 
     @Override

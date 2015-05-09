@@ -6,9 +6,8 @@ import eu.inloop.viewmodel.IView;
 
 public interface IUserListView extends IView {
 
-    public void showLoading();
-    public void hideProgress();
+    void showLoading(float progress);
+    void hideProgress();
 
-    public void setUsers(List<String> users);
-    public void showIntermediateProgress(boolean show);
+    void showUsers(List<String> users);
 }

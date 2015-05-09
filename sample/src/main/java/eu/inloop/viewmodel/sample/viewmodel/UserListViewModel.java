@@ -12,12 +12,14 @@ import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
 
 public class UserListViewModel extends AbstractViewModel<IUserListView> {
 
+    private static final int TOTAL_USERS = 7;
     private List<String> mLoadedUsers;
 
     //Don't persist state variables
     private boolean mLoadingUsers;
 
-    private int numberOfRunningDeletes = 0;
+    private int mNumberOfRunningDeletes = 0;
+    private float mCurrentLoadingProgress = 0;
 
     @Override
     public void initWithView(@NonNull IUserListView view) {
@@ -25,47 +27,46 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
 
         //downloading list of users
         if (mLoadedUsers != null) {
-            view.setUsers(mLoadedUsers);
+            view.showUsers(mLoadedUsers);
         } else if (mLoadingUsers) {
-            view.showLoading();
+            view.showLoading(mCurrentLoadingProgress);
         } else {
             loadUsers();
-        }
-
-        refreshLoading();
-    }
-
-    private void refreshLoading() {
-        //loading user
-        if (numberOfRunningDeletes > 0 && getView() != null) {
-            getView().showIntermediateProgress(true);
         }
     }
 
     private void loadUsers() {
         mLoadingUsers = true;
+        mCurrentLoadingProgress = 0;
         if (getView() != null) {
-            getView().showLoading();
+            getView().showLoading(mCurrentLoadingProgress);
         }
-        new AsyncTask<Void, Void, List<String>>() {
+        new AsyncTask<Void, Float, List<String>>() {
 
             @Override
             protected List<String> doInBackground(Void... voids) {
-                final List<String> list = new ArrayList<String>();
-                list.add("User 1");
-                list.add("User 2");
-                list.add("User 3");
-                list.add("User 3");
-                list.add("User 4");
-                list.add("User 5");
+                final List<String> list = new ArrayList<>();
+                for (int i = 0; i < TOTAL_USERS; i++) {
+                    list.add("User " + i);
 
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        //
+                    }
+                    publishProgress((i+1) / (float)TOTAL_USERS);
                 }
 
                 return list;
+            }
+
+            @Override
+            protected void onProgressUpdate(Float... values) {
+                super.onProgressUpdate(values);
+                mCurrentLoadingProgress = values[0];
+                if (getView() != null) {
+                    getView().showLoading(mCurrentLoadingProgress);
+                }
             }
 
             @Override
@@ -74,7 +75,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
                 mLoadedUsers = s;
                 mLoadingUsers = false;
                 if (getView() != null) {
-                    getView().setUsers(s);
+                    getView().showUsers(s);
                     getView().hideProgress();
                 }
             }
@@ -85,12 +86,12 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
         if (position > mLoadedUsers.size() - 1) {
             return;
         }
-        mLoadedUsers.set(position, "Deleting");
+        mLoadedUsers.set(position, "Deleting in 5 seconds...");
         if (getView() != null) {
-            getView().showIntermediateProgress(true);
-            getView().setUsers(mLoadedUsers);
+            getView().showUsers(mLoadedUsers);
         }
-        numberOfRunningDeletes++;
+        mNumberOfRunningDeletes++;
+        final String itemToDelete = mLoadedUsers.get(position);
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -98,14 +99,10 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                   //
                 }
-                if (mLoadedUsers.size() > position) {
-                    mLoadedUsers.remove(position);
-                } else {
-                    mLoadedUsers.remove(0);
-                }
-                numberOfRunningDeletes--;
+                mLoadedUsers.remove(itemToDelete);
+                mNumberOfRunningDeletes--;
                 return null;
             }
 
@@ -113,24 +110,12 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if (getView() != null) {
-                    getView().setUsers(mLoadedUsers);
-                    if (numberOfRunningDeletes == 0) {
-                        getView().showIntermediateProgress(false);
-                    }
+                    getView().showUsers(mLoadedUsers);
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    @Override
-    public void onStart() {
-        refreshLoading();
-    }
-
-    @Override
-    public void onStop() {
-        getView().showIntermediateProgress(false);
-    }
 
     @Override
     public void restoreState(Bundle bundle) {
