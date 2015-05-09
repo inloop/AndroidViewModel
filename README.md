@@ -10,7 +10,8 @@ You can execute asynchronous tasks in this ViewModel instance and this class is 
 
 ![](website/static/viewmodel_architecture.png)
 
-<b>How to implement</b>:
+How to implement
+--------
 
 1. Create an interface for your <b>View</b> by extending [IView](library/src/main/java/eu/inloop/viewmodel/IView.java). We will call it IUserListView for this example.
 
@@ -41,7 +42,8 @@ You can execute asynchronous tasks in this ViewModel instance and this class is 
   }
   ```
   
-<b>How to use</b>:
+How to use
+--------
 
 You can forward user interaction from the View into the ViewModel simply by calling:
 
@@ -53,9 +55,17 @@ The same goes for the opposite direction, when your asynchronous operation in th
 
   ```java
   if (getView() != null) {
-    getView().showUsers(userList);
+      getView().showUsers(userList);
   }
   ```
+
+Your Fragment argument Bundle and Activity intent Bundle is forwarded to the ViewModel's onCreate method, which you can override to read the initial arguments for the ViewModel.
+
+   ```java 
+   public void onCreate(Bundle arguments, Bundle savedInstanceState) {
+      long userId = arguments.getInt("user_id", -1);
+   }
+   ``` 
 
 <b>How does it work?</b>
 
@@ -95,5 +105,7 @@ or Maven:
   <version>0.2</version>
 </dependency>
 ```
+Build and study sample application from source code or download from Google Play.<br/>
+[![](website/static/google_play.png)](https://play.google.com/store/apps/details?id=eu.inloop.viewmodel.sample)
 
 <b>Development status:</b> Used internally at company on some production applications. Library is under development and API changes might occur anytime. But it should be usuable at this point without any big issues (like memory leaks).
