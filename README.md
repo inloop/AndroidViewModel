@@ -95,14 +95,14 @@ Download
 
 Grab via Gradle:
 ```groovy
-compile 'eu.inloop:androidviewmodel:0.2'
+compile 'eu.inloop:androidviewmodel:0.3'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>eu.inloop</groupId>
   <artifactId>androidviewmodel</artifactId>
-  <version>0.2</version>
+  <version>0.3</version>
 </dependency>
 ```
 Build and study sample application from source code or download from Google Play.<br/>
