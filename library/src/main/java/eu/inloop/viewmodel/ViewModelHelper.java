@@ -8,15 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
-    private int mScreenId;
+    private String mScreenId;
     private R mViewModel;
     private boolean mModelRemoved;
     private boolean mOnSaveInstanceCalled;
-    private static final AtomicInteger sModelIndex = new AtomicInteger(0);
 
     /**
      * Call from {@link android.app.Activity#onCreate(android.os.Bundle)} or
@@ -38,9 +38,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
         // screen (activity/fragment) created for first time, attach unique ID
         if (savedInstanceState == null) {
-            mScreenId = sModelIndex.incrementAndGet();
+            mScreenId = UUID.randomUUID().toString();
         } else {
-            mScreenId = savedInstanceState.getInt("identifier");
+            mScreenId = savedInstanceState.getString("identifier");
             mOnSaveInstanceCalled = false;
         }
 
@@ -161,7 +161,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      * @param bundle
      */
     public void onSaveInstanceState(@NonNull Bundle bundle) {
-        bundle.putInt("identifier", mScreenId);
+        bundle.putString("identifier", mScreenId);
         if (mViewModel != null) {
             mViewModel.saveState(bundle);
             mOnSaveInstanceCalled = true;
