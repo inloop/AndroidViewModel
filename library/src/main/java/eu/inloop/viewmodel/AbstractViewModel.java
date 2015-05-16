@@ -30,6 +30,7 @@ public abstract class AbstractViewModel<T extends IView> {
     }
 
     /**
+     * Called when the ViewModel instance is created.
      * @param arguments initial ViewModel arguments passed from {@link Fragment#getArguments()}  or
      *                  {@link Activity#getIntent()}.{@link Intent#getExtras()}
      * @param savedInstanceState bundle with saved state, will be not null
@@ -41,7 +42,7 @@ public abstract class AbstractViewModel<T extends IView> {
 
     }
 
-    public void initWithView(@NonNull T view) {
+    public void bindView(@NonNull T view) {
         mView = view;
     }
 

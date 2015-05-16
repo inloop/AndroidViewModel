@@ -32,8 +32,8 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
     }
 
     @Override
-    public void initWithView(@NonNull IUserListView view) {
-        super.initWithView(view);
+    public void bindView(@NonNull IUserListView view) {
+        super.bindView(view);
 
         //downloading list of users
         if (mLoadedUsers != null) {

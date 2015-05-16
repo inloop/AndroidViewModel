@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
@@ -68,7 +67,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
             //no viewmodel for this fragment
             return;
         }
-        mViewModel.initWithView(view);
+        mViewModel.bindView(view);
     }
 
     /**
