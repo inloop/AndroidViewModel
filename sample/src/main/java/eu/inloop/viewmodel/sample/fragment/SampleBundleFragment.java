@@ -30,6 +30,12 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setModelView(this);
+    }
+
+    @Override
     public Class<SampleArgumentViewModel> getViewModelClass() {
         return SampleArgumentViewModel.class;
     }

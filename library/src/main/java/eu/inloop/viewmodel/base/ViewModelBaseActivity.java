@@ -1,6 +1,7 @@
 package eu.inloop.viewmodel.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import eu.inloop.viewmodel.AbstractViewModel;
@@ -15,8 +16,14 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModeHelper.onCreate(savedInstanceState, getViewModelClass(), getIntent().getExtras());
-        //noinspection unchecked
-        mViewModeHelper.initWithView((T) this);
+    }
+
+    /**
+     * Call this after your view is ready - usually on the end of {@link android.app.Activity#onCreate(Bundle)}
+     * @param view
+     */
+    public void setModelView(@NonNull T view) {
+        mViewModeHelper.setView(view);
     }
 
     public abstract Class<R> getViewModelClass();

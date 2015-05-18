@@ -1,6 +1,7 @@
 package eu.inloop.viewmodel.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -21,11 +22,12 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
 
     public abstract Class<R> getViewModelClass();
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //noinspection unchecked
-        mViewModeHelper.initWithView((T) this);
+    /**
+     * Call this after your view is ready - usually on the end of {@link Fragment#onViewCreated(View, Bundle)}
+     * @param view
+     */
+    protected void setModelView(@NonNull T view) {
+        mViewModeHelper.setView(view);
     }
 
     @Override

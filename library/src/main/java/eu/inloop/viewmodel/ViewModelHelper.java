@@ -62,7 +62,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      * or {@link android.app.Activity#onCreate(android.os.Bundle)}
      * @param view
      */
-    public void initWithView(@NonNull T view) {
+    public void setView(@NonNull T view) {
         if (mViewModel == null) {
             //no viewmodel for this fragment
             return;

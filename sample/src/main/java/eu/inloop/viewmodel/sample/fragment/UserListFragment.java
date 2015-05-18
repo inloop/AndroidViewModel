@@ -79,6 +79,7 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
                 getViewModel().deleteUser(i - mListview.getHeaderViewsCount());
             }
         });
+        setModelView(this);
     }
 
     @Override
