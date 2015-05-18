@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
 import eu.inloop.viewmodel.IView;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
@@ -32,6 +33,7 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.inject(this, view);
         setModelView(this);
     }
 

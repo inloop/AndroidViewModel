@@ -30,8 +30,8 @@ How to implement
    ```
 3. Each <b>Fragment</b> or <b>Activity</b> that you would like to associate with a ViewModel will need either to extend [ViewModelActivityBase](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseActivity.java)/[ViewModelBaseFragment](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseFragment.java) or copy the implementation from these classes to your base activity/fragment class (in case you can't inherit directly). Override ```getViewModelClass()``` to return the corresponding ViewModel class. For example: <br/>
   
-  ```java
-  public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserListViewModel> 
+   ```java
+   public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserListViewModel> 
       implements IUserListView {
       
      @Override
@@ -39,8 +39,19 @@ How to implement
           return UserListViewModel.class;
       }
       
-  }
-  ```
+   }
+   ```
+
+4. Also each <b>Fragment</b> or <b>Activity</b> has to call ```setModelView()``` after the View (Fragment/Activity) was created and initialized. This is usually on the end of onViewCreated (or onCreate in case of an Activity) <br/>
+  
+   ```java
+   @Override
+   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.inject(this, view);
+        setModelView(this);
+   }
+   ```  
   
 How to use
 --------
@@ -95,14 +106,14 @@ Download
 
 Grab via Gradle:
 ```groovy
-compile 'eu.inloop:androidviewmodel:0.3'
+compile 'eu.inloop:androidviewmodel:0.3.2'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>eu.inloop</groupId>
   <artifactId>androidviewmodel</artifactId>
-  <version>0.3</version>
+  <version>0.3.2</version>
 </dependency>
 ```
 Build and study sample application from source code or download from Google Play.<br/>
