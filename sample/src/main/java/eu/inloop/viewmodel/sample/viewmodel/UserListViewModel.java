@@ -127,7 +127,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
 
 
     @Override
-    public void saveState(Bundle bundle) {
+    public void saveState(@NonNull final Bundle bundle) {
         super.saveState(bundle);
         if (mLoadedUsers != null) {
             bundle.putStringArrayList("userlist", new ArrayList<>(mLoadedUsers));

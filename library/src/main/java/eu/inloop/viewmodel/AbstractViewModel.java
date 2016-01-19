@@ -7,16 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import eu.inloop.viewmodel.IView;
-
 public abstract class AbstractViewModel<T extends IView> {
 
+    @Nullable
     private String mUniqueIdentifier;
 
     @Nullable
     private T mView;
 
-    void setUniqueIdentifier(String uniqueIdentifier) {
+    void setUniqueIdentifier(@NonNull final String uniqueIdentifier) {
         mUniqueIdentifier = uniqueIdentifier;
     }
 
@@ -25,6 +24,8 @@ public abstract class AbstractViewModel<T extends IView> {
      * @return An app unique identifier for the current viewmodel instance (will be kept during orientation
      * change). This identifier will be reset in case the corresponding activity is killed.
      */
+    @SuppressWarnings("unused")
+    @Nullable
     public String getUniqueIdentifier() {
         return mUniqueIdentifier;
     }
@@ -46,6 +47,7 @@ public abstract class AbstractViewModel<T extends IView> {
         mView = view;
     }
 
+    @Nullable
     public T getView() {
         return mView;
     }
@@ -55,7 +57,7 @@ public abstract class AbstractViewModel<T extends IView> {
     }
 
     @SuppressWarnings("EmptyMethod")
-    public void saveState(Bundle bundle) {
+    public void saveState(@NonNull final Bundle bundle) {
 
     }
 

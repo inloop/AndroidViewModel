@@ -12,7 +12,9 @@ import java.util.UUID;
 
 public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
+    @Nullable
     private String mScreenId;
+    @Nullable
     private R mViewModel;
     private boolean mModelRemoved;
     private boolean mOnSaveInstanceCalled;
@@ -62,9 +64,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     /**
      * Call from {@link android.support.v4.app.Fragment#onViewCreated(android.view.View, android.os.Bundle)}
      * or {@link android.app.Activity#onCreate(android.os.Bundle)}
-     * @param view
+     * @param view view
      */
-    public void setView(@NonNull T view) {
+    public void setView(@NonNull final T view) {
         if (mViewModel == null) {
             //no viewmodel for this fragment
             return;
@@ -76,7 +78,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      * Use in case this model is associated with an {@link android.support.v4.app.Fragment}
      * Call from {@link android.support.v4.app.Fragment#onDestroyView()}. Use in case model is associated
      * with Fragment
-     * @param fragment
+     * @param fragment fragment
      */
     public void onDestroyView(@NonNull Fragment fragment) {
         if (mViewModel == null) {
@@ -92,9 +94,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     /**
      * Use in case this model is associated with an {@link android.support.v4.app.Fragment}
      * Call from {@link android.support.v4.app.Fragment#onDestroy()}
-     * @param fragment
+     * @param fragment fragment
      */
-    public void onDestroy(@NonNull Fragment fragment) {
+    public void onDestroy(@NonNull final Fragment fragment) {
         if (mViewModel == null) {
             //no viewmodel for this fragment
             return;
@@ -105,7 +107,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
             // The fragment can be still in backstack even if isRemoving() is true.
             // We check mOnSaveInstanceCalled - if this was not called then the fragment is totally removed.
             if (BuildConfig.DEBUG) {
-                Log.d("mode", "Removing viewmodel - fragment replaced");
+                Log.d("mode", "Removing viewmodel - fragment replaced"); //NON-NLS
             }
             removeViewModel(fragment.getActivity());
         }
@@ -114,9 +116,9 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     /**
      * Use in case this model is associated with an {@link android.app.Activity}
      * Call from {@link android.app.Activity#onDestroy()}
-     * @param activity
+     * @param activity activity
      */
-    public void onDestroy(@NonNull Activity activity) {
+    public void onDestroy(@NonNull final Activity activity) {
         if (mViewModel == null) {
             //no viewmodel for this fragment
             return;
@@ -159,7 +161,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      * Call from {@link android.app.Activity#onSaveInstanceState(android.os.Bundle)}
      * or {@link android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)}.
      * This allows the model to save its state.
-     * @param bundle
+     * @param bundle bundle
      */
     public void onSaveInstanceState(@NonNull Bundle bundle) {
         bundle.putString("identifier", mScreenId);
@@ -170,7 +172,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     }
 
     private void removeViewModel(@NonNull final Activity activity) {
-        if (!mModelRemoved) {
+        if (mViewModel != null && !mModelRemoved) {
             getViewModelProvider(activity).getViewModelProvider().remove(mScreenId);
             mViewModel.onModelRemoved();
             mModelRemoved = true;
@@ -179,7 +181,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
     private IViewModelProvider getViewModelProvider(@NonNull Activity activity) {
         if (!(activity instanceof IViewModelProvider)) {
-            throw new IllegalStateException("Your activity must implement IViewModelProvider");
+            throw new IllegalStateException("Your activity must implement IViewModelProvider"); //NON-NLS
         }
         return ((IViewModelProvider) activity);
     }

@@ -2,7 +2,6 @@ package eu.inloop.viewmodel;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.util.SparseArray;
 
 import java.util.HashMap;
 
@@ -24,6 +23,7 @@ public class ViewModelProvider {
         }
     }
 
+    @SuppressWarnings({"deprecation", "unused"})
     @Deprecated
     public static ViewModelProvider newInstance(@NonNull final Activity activity) {
         if (activity.getLastNonConfigurationInstance() == null) {
@@ -47,7 +47,8 @@ public class ViewModelProvider {
 
     @SuppressWarnings("unchecked")
     @NonNull
-    public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(String modelIdentifier, @NonNull Class<? extends AbstractViewModel<T>> viewModelClass) {
+    public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(final String modelIdentifier,
+                                                                           final @NonNull Class<? extends AbstractViewModel<T>> viewModelClass) {
         AbstractViewModel<T> instance = (AbstractViewModel<T>) mViewModelCache.get(modelIdentifier);
         if (instance != null) {
             return new ViewModelWrapper<>(instance, false);

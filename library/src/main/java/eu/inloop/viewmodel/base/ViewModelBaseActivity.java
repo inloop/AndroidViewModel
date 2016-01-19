@@ -2,6 +2,7 @@ package eu.inloop.viewmodel.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import eu.inloop.viewmodel.AbstractViewModel;
@@ -16,7 +17,7 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     private ViewModelProvider mViewModelProvider;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         //This code must be execute prior to super.onCreate()
         mViewModelProvider = ViewModelProvider.newInstance(this);
         super.onCreate(savedInstanceState);
@@ -25,21 +26,23 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
 
     /**
      * Call this after your view is ready - usually on the end of {@link android.app.Activity#onCreate(Bundle)}
-     * @param view
+     * @param view view
      */
-    public void setModelView(@NonNull T view) {
+    @SuppressWarnings("unused")
+    public void setModelView(@NonNull final T view) {
         mViewModeHelper.setView(view);
     }
 
     public abstract Class<R> getViewModelClass();
 
     @Override
+    @Nullable
     public Object onRetainCustomNonConfigurationInstance() {
         return mViewModelProvider;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         mViewModeHelper.onSaveInstanceState(outState);
     }
@@ -66,6 +69,7 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     }
 
     @SuppressWarnings("unused")
+    @Nullable
     public R getViewModel() {
         return mViewModeHelper.getViewModel();
     }

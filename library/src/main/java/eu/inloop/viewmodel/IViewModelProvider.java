@@ -8,7 +8,7 @@ public interface IViewModelProvider {
 
     /**
      * See {@link eu.inloop.viewmodel.base.ViewModelBaseActivity} on how to implement.
-     * @return
+     * @return the {@link ViewModelProvider}.
      */
-    public ViewModelProvider getViewModelProvider();
+    ViewModelProvider getViewModelProvider();
 }
