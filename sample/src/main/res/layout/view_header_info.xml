@@ -22,4 +22,10 @@
         android:text="@string/userlist_close_activity"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:text="@string/userlist_open_fragment_pager"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

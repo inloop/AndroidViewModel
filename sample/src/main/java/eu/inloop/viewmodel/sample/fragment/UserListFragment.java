@@ -1,5 +1,6 @@
 package eu.inloop.viewmodel.sample.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import butterknife.InjectView;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.SampleApplication;
+import eu.inloop.viewmodel.sample.activity.ViewPagerActivity;
 import eu.inloop.viewmodel.sample.viewmodel.UserListViewModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
 
@@ -63,6 +65,12 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
             public void onClick(View view) {
                 getActivity().finish();
                 getActivity().startActivity(getActivity().getIntent());
+            }
+        });
+        headerView.findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), ViewPagerActivity.class));
             }
         });
         mListview.addHeaderView(headerView, null, false);
