@@ -1,3 +1,8 @@
+## 0.4.0(2016-01-19)
+
+  - The ViewModel instances are now kept within the Activity (onRetainCustomNonConfigurationInstance). All ViewModels in the activity (including fragment ViewModels) will be cleared if you leave the activity.
+  - If you are not extending ViewModelBaseActivity and instead you are using your own implementation, then you need to update your base Activity. The ViewModelBaseActivity.onCreate() changed and the activity now implements IViewModelProver interface.
+  
 ## 0.3.2(2015-05-18)
 
 Breaking changes:

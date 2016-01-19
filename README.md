@@ -106,16 +106,9 @@ Download
 
 Grab via Gradle:
 ```groovy
-compile 'eu.inloop:androidviewmodel:0.3.2'
+compile 'eu.inloop:androidviewmodel:0.4.0'
 ```
-or Maven:
-```xml
-<dependency>
-  <groupId>eu.inloop</groupId>
-  <artifactId>androidviewmodel</artifactId>
-  <version>0.3.2</version>
-</dependency>
-```
+
 Build and study sample application from source code or download from Google Play.<br/>
 [![](website/static/google_play.png)](https://play.google.com/store/apps/details?id=eu.inloop.viewmodel.sample)
 
