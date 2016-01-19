@@ -1,5 +1,7 @@
 package eu.inloop.viewmodel;
+import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 
 import java.util.HashMap;
@@ -12,20 +14,35 @@ import java.util.HashMap;
  */
 public class ViewModelProvider {
 
-    private static final ViewModelProvider sInstance = new ViewModelProvider();
-
     private final HashMap<String, AbstractViewModel<? extends IView>> mViewModelCache;
+
+    public static ViewModelProvider newInstance(@NonNull final FragmentActivity activity) {
+        if (activity.getLastCustomNonConfigurationInstance() == null) {
+            return new ViewModelProvider();
+        } else {
+            return  (ViewModelProvider) activity.getLastCustomNonConfigurationInstance();
+        }
+    }
+
+    @Deprecated
+    public static ViewModelProvider newInstance(@NonNull final Activity activity) {
+        if (activity.getLastNonConfigurationInstance() == null) {
+            return new ViewModelProvider();
+        } else {
+            return  (ViewModelProvider) activity.getLastNonConfigurationInstance();
+        }
+    }
 
     private ViewModelProvider() {
         mViewModelCache = new HashMap<>();
     }
 
-    public static ViewModelProvider getInstance() {
-        return sInstance;
-    }
-
     public synchronized void remove(String modeIdentifier) {
         mViewModelCache.remove(modeIdentifier);
+    }
+
+    public synchronized void removeAllViewModels() {
+        mViewModelCache.clear();
     }
 
     @SuppressWarnings("unchecked")

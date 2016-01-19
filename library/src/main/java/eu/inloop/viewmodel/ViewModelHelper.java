@@ -20,13 +20,15 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     /**
      * Call from {@link android.app.Activity#onCreate(android.os.Bundle)} or
      * {@link android.support.v4.app.Fragment#onCreate(android.os.Bundle)}
+     * @param activity parent activity
      * @param savedInstanceState savedInstance state from {@link Activity#onCreate(Bundle)} or
      *                           {@link Fragment#onCreate(Bundle)}
      * @param viewModelClass the {@link Class} of your ViewModel
      * @param arguments pass {@link Fragment#getArguments()}  or
      *                  {@link Activity#getIntent()}.{@link Intent#getExtras() getExtras()}
      */
-    public void onCreate(@Nullable Bundle savedInstanceState,
+    public void onCreate(@NonNull Activity activity,
+                         @Nullable Bundle savedInstanceState,
                          @Nullable Class<? extends AbstractViewModel<T>> viewModelClass,
                          @Nullable Bundle arguments) {
         // no viewmodel for this fragment
@@ -44,7 +46,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         }
 
         // get model instance for this screen
-        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = ViewModelProvider.getInstance().getViewModel(mScreenId, viewModelClass);
+        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = getViewModelProvider(activity).getViewModelProvider().getViewModel(mScreenId, viewModelClass);
         //noinspection unchecked
         mViewModel = (R) viewModelWrapper.viewModel;
 
@@ -83,7 +85,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         }
         mViewModel.clearView();
         if (fragment.getActivity() != null && fragment.getActivity().isFinishing()) {
-            removeViewModel();
+            removeViewModel(fragment.getActivity());
         }
     }
 
@@ -98,14 +100,14 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
             return;
         }
         if (fragment.getActivity().isFinishing()) {
-            removeViewModel();
+            removeViewModel(fragment.getActivity());
         } else if (fragment.isRemoving() && !mOnSaveInstanceCalled) {
             // The fragment can be still in backstack even if isRemoving() is true.
             // We check mOnSaveInstanceCalled - if this was not called then the fragment is totally removed.
             if (BuildConfig.DEBUG) {
                 Log.d("mode", "Removing viewmodel - fragment replaced");
             }
-            removeViewModel();
+            removeViewModel(fragment.getActivity());
         }
     }
 
@@ -121,7 +123,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         }
         mViewModel.clearView();
         if (activity.isFinishing()) {
-            removeViewModel();
+            removeViewModel(activity);
         }
     }
 
@@ -167,11 +169,18 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         }
     }
 
-    private void removeViewModel() {
+    private void removeViewModel(@NonNull final Activity activity) {
         if (!mModelRemoved) {
-            ViewModelProvider.getInstance().remove(mScreenId);
+            getViewModelProvider(activity).getViewModelProvider().remove(mScreenId);
             mViewModel.onModelRemoved();
             mModelRemoved = true;
         }
+    }
+
+    private IViewModelProvider getViewModelProvider(@NonNull Activity activity) {
+        if (!(activity instanceof IViewModelProvider)) {
+            throw new IllegalStateException("Your activity must implement IViewModelProvider");
+        }
+        return ((IViewModelProvider) activity);
     }
 }

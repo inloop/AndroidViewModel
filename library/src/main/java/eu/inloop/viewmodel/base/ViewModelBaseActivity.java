@@ -6,16 +6,21 @@ import android.support.v7.app.AppCompatActivity;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
+import eu.inloop.viewmodel.IViewModelProvider;
 import eu.inloop.viewmodel.ViewModelHelper;
+import eu.inloop.viewmodel.ViewModelProvider;
 
-public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends AppCompatActivity implements IView {
+public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends AppCompatActivity implements IView, IViewModelProvider {
 
     private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
+    private ViewModelProvider mViewModelProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //This code must be execute prior to super.onCreate()
+        mViewModelProvider = ViewModelProvider.newInstance(this);
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(savedInstanceState, getViewModelClass(), getIntent().getExtras());
+        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelClass(), getIntent().getExtras());
     }
 
     /**
@@ -27,6 +32,11 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     }
 
     public abstract Class<R> getViewModelClass();
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return mViewModelProvider;
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -44,6 +54,9 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     public void onStop() {
         super.onStop();
         mViewModeHelper.onStop();
+        if (isFinishing()) {
+            mViewModelProvider.removeAllViewModels();
+        }
     }
 
     @Override
@@ -55,5 +68,10 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @SuppressWarnings("unused")
     public R getViewModel() {
         return mViewModeHelper.getViewModel();
+    }
+
+    @Override
+    public ViewModelProvider getViewModelProvider() {
+        return mViewModelProvider;
     }
 }

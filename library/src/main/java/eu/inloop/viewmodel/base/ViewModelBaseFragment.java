@@ -2,7 +2,6 @@ package eu.inloop.viewmodel.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
@@ -17,7 +16,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(savedInstanceState, getViewModelClass(), getArguments());
+        mViewModeHelper.onCreate(getActivity(), savedInstanceState, getViewModelClass(), getArguments());
     }
 
     public abstract Class<R> getViewModelClass();
@@ -64,5 +63,4 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     public R getViewModel() {
        return mViewModeHelper.getViewModel();
     }
-
 }
