@@ -1,3 +1,8 @@
+## 0.4.1(2016-01-22)
+
+  - Added ViewModelBaseEmptyActivity - which you can extend in case you don't need a ViewModel in your activity (but your fragments have ViewModels).
+  - Added a sanity check if setModelView() was called - an error will be logged in case you forget to call it.
+  
 ## 0.4.0(2016-01-19)
 
   - The ViewModel instances are now kept within the Activity (onRetainCustomNonConfigurationInstance). All ViewModels in the activity (including fragment ViewModels) will be cleared if you leave the activity.
