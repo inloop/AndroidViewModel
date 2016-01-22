@@ -7,10 +7,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import eu.inloop.viewmodel.base.ViewModelBaseActivity;
+import eu.inloop.viewmodel.base.ViewModelBaseEmptyActivity;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.fragment.PagerFragment;
 
-public class ViewPagerActivity extends ViewModelBaseActivity {
+public class ViewPagerActivity extends ViewModelBaseEmptyActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +20,6 @@ public class ViewPagerActivity extends ViewModelBaseActivity {
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(new TestPagerAdapter(getSupportFragmentManager()));
-    }
-
-    @Override
-    public Class getViewModelClass() {
-        return null;
     }
 
     private final static class TestPagerAdapter extends FragmentStatePagerAdapter {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 public abstract class AbstractViewModel<T extends IView> {
 
@@ -14,6 +15,8 @@ public abstract class AbstractViewModel<T extends IView> {
 
     @Nullable
     private T mView;
+
+    private boolean mBindViewWasCalled;
 
     void setUniqueIdentifier(@NonNull final String uniqueIdentifier) {
         mUniqueIdentifier = uniqueIdentifier;
@@ -44,6 +47,7 @@ public abstract class AbstractViewModel<T extends IView> {
     }
 
     public void bindView(@NonNull T view) {
+        mBindViewWasCalled = true;
         mView = view;
     }
 
@@ -68,7 +72,9 @@ public abstract class AbstractViewModel<T extends IView> {
 
     @SuppressWarnings("EmptyMethod")
     public void onStart() {
-
+        if (mView == null && !mBindViewWasCalled) {
+            Log.e("AndroidViewModel", this.getClass().getSimpleName() + " - no view associated. You probably did not call setModelView() in your Fragment or Activity");
+        }
     }
 
     /**
