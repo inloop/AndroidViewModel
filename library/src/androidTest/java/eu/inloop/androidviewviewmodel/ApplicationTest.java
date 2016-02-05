@@ -1,4 +1,4 @@
-package sample.viewmodel.inloop.eu.viewmodelsample;
+package eu.inloop.androidviewviewmodel;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
