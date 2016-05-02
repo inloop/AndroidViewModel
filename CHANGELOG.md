@@ -1,3 +1,9 @@
+## 1.0.0(2016-05-02)
+
+  - We decided it's time for 1.0.0 release after a lot of use in production projects.
+  - Made getViewModel() as NonNull to prevent a lot of unncessary null checks. It will now throw an IllegalStateException in case it's null (should not happen under normal conditions. Only if you call it too soon - before Activity.onCreate or Fragment.onCreate).
+  - <b>Breaking change</b>: AbstractViewModel method saveState was renamed to onSaveInstanceState, bindView to onBindView and onModelRemoved to onDestroy. You may need to update your Models if you are overriding those methods.
+  
 ## 0.4.1(2016-01-22)
 
   - Added ViewModelBaseEmptyActivity - which you can extend in case you don't need a ViewModel in your activity (but your fragments have ViewModels).

@@ -106,10 +106,8 @@ Download
 
 Grab via Gradle:
 ```groovy
-compile 'eu.inloop:androidviewmodel:0.4.0'
+compile 'eu.inloop:androidviewmodel:1.0.0'
 ```
 
 Build and study sample application from source code or download from Google Play.<br/>
 [![](website/static/google_play.png)](https://play.google.com/store/apps/details?id=eu.inloop.viewmodel.sample)
-
-<b>Development status:</b> Used internally at company on some production applications. Library is under development and API changes might occur anytime. But it should be usuable at this point without any big issues (like memory leaks).
