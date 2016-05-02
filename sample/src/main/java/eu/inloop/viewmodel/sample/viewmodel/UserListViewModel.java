@@ -32,8 +32,8 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
     }
 
     @Override
-    public void bindView(@NonNull IUserListView view) {
-        super.bindView(view);
+    public void onBindView(@NonNull IUserListView view) {
+        super.onBindView(view);
 
         //downloading list of users
         if (mLoadedUsers != null) {
@@ -127,16 +127,16 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
 
 
     @Override
-    public void saveState(@NonNull final Bundle bundle) {
-        super.saveState(bundle);
+    public void onSaveInstanceState(@NonNull final Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         if (mLoadedUsers != null) {
             bundle.putStringArrayList("userlist", new ArrayList<>(mLoadedUsers));
         }
     }
 
     @Override
-    public void onModelRemoved() {
-        super.onModelRemoved();
+    public void onDestroy() {
+        super.onDestroy();
         //use this to cancel any planned requests
     }
 }

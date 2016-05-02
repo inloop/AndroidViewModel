@@ -71,7 +71,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
             //no viewmodel for this fragment
             return;
         }
-        mViewModel.bindView(view);
+        mViewModel.onBindView(view);
     }
 
     /**
@@ -176,7 +176,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     public void onSaveInstanceState(@NonNull Bundle bundle) {
         bundle.putString("identifier", mScreenId);
         if (mViewModel != null) {
-            mViewModel.saveState(bundle);
+            mViewModel.onSaveInstanceState(bundle);
             mOnSaveInstanceCalled = true;
         }
     }
@@ -184,7 +184,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     private void removeViewModel(@NonNull final Activity activity) {
         if (mViewModel != null && !mModelRemoved) {
             getViewModelProvider(activity).getViewModelProvider().remove(mScreenId);
-            mViewModel.onModelRemoved();
+            mViewModel.onDestroy();
             mModelRemoved = true;
         }
     }

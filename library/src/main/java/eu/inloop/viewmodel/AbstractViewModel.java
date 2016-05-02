@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 
 public abstract class AbstractViewModel<T extends IView> {
 
@@ -39,14 +40,19 @@ public abstract class AbstractViewModel<T extends IView> {
      *                  {@link Activity#getIntent()}.{@link Intent#getExtras()}
      * @param savedInstanceState bundle with saved state, will be not null
      *               only in case the system is killed due to low memory
-     *               and restored (and {@link #saveState(Bundle)} returned a non-null bundle.
+     *               and restored (and {@link #onSaveInstanceState(Bundle)} returned a non-null bundle.
      */
     @SuppressWarnings("EmptyMethod")
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
 
     }
 
-    public void bindView(@NonNull T view) {
+    /**
+     * This method is an equivalent of {@link Fragment#onViewCreated(View, Bundle)} or {@link Activity#onCreate(Bundle)}.
+     * At this point, the View is ready and you can initialise it.
+     * @param view
+     */
+    public void onBindView(@NonNull T view) {
         mBindViewWasCalled = true;
         mView = view;
     }
@@ -61,7 +67,7 @@ public abstract class AbstractViewModel<T extends IView> {
     }
 
     @SuppressWarnings("EmptyMethod")
-    public void saveState(@NonNull final Bundle bundle) {
+    public void onSaveInstanceState(@NonNull final Bundle bundle) {
 
     }
 
@@ -82,7 +88,7 @@ public abstract class AbstractViewModel<T extends IView> {
      * This is a good place to empty any planned tasks that are useless without a UI.
      */
     @SuppressWarnings("EmptyMethod")
-    public void onModelRemoved() {
+    public void onDestroy() {
 
     }
 }
