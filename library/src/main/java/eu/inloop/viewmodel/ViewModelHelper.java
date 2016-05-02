@@ -152,8 +152,18 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
     }
 
 
-    @Nullable
+    /**
+     * Returns the current ViewModel instance associated with the Fragment or Activity.
+     * Throws an {@link IllegalStateException} in case the ViewModel is null. This can happen
+     * if you call this method too soon - before {@link Activity#onCreate(Bundle)} or {@link Fragment#onCreate(Bundle)}
+     * or this {@link ViewModelHelper} is not properly setup.
+     * @return {@link R}
+     */
+    @NonNull
     public R getViewModel() {
+        if (null == mViewModel) {
+            throw new IllegalStateException("ViewModel is not ready. Are you calling this method before Activity/Fragment onCreate?"); //NON-NLS
+        }
         return mViewModel;
     }
 

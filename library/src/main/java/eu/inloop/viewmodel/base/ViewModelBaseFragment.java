@@ -61,7 +61,10 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
         super.onDestroy();
     }
 
-    @Nullable
+    /**
+     * @see ViewModelHelper#getViewModel()
+     */
+    @NonNull
     @SuppressWarnings("unused")
     public R getViewModel() {
        return mViewModeHelper.getViewModel();

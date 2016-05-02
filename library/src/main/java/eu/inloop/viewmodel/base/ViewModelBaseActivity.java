@@ -53,8 +53,11 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
         super.onDestroy();
     }
 
+    /**
+     * @see ViewModelHelper#getViewModel()
+     */
     @SuppressWarnings("unused")
-    @Nullable
+    @NonNull
     public R getViewModel() {
         return mViewModeHelper.getViewModel();
     }
