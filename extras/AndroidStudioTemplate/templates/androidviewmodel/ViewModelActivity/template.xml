@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<template
+        format="5"
+        revision="1"
+        name="AndroidViewModel Screen"
+        minApi="14"
+        minBuildApi="14"
+        description="Creates a new empty interface view, model, activity/fragments and its layout.">
+
+    <category value="AndroidViewModel"/>
+    <formfactor value="Mobile"/>
+
+    <parameter
+            id="screenType"
+            name="Screen Type"
+            type="enum"
+            default="Fragment"
+            help="Either an Activity or Fragment">
+
+        <option id="Activity">Activity</option>
+        <option id="Fragment">Fragment</option>
+    </parameter>
+
+    <parameter
+            id="screenClass"
+            name="Screen Name"
+            type="string"
+            suggest="${screenType}"
+            constraints="class|unique|nonempty"
+            default="ExampleFragment"
+            help="The name of the screen class to create"/>
+
+    <parameter
+            id="layoutName"
+            name="Layout Name"
+            type="string"
+            constraints="layout|unique|nonempty"
+            suggest="${screenType?lower_case}_${classToResource(screenClass)}"
+            default="activity_view_model"
+            help="The name of the layout to create for the screen"/>
+
+    <parameter
+            id="modelClass"
+            name="Model name"
+            type="string"
+            constraints="class|unique|nonempty"
+            suggest="${underscoreToCamelCase(classToResource(screenClass))?cap_first}ViewModel"
+            default="ActivityViewModel"
+            help="The name of the Model class to create"/>
+
+    <parameter
+            id="viewClass"
+            name="View name"
+            type="string"
+            constraints="class|unique|nonempty"
+            suggest="I${underscoreToCamelCase(classToResource(screenClass))?cap_first}View"
+            default="IActivityView"
+            help="The name of the View interface to create"/>
+
+    <parameter
+            id="packageName"
+            name="ROOT (!) Package name"
+            type="string"
+            constraints="package"
+            default="com.mycompany.myapp"
+            help="The name of the ROOT (!) package where AndroidViewModel will generate classes."/>
+
+
+    <thumbs>
+        <thumb>template_blank_activity.png</thumb>
+    </thumbs>
+
+    <globals file="globals.xml.ftl"/>
+    <execute file="recipe.xml.ftl"/>
+
+</template>
