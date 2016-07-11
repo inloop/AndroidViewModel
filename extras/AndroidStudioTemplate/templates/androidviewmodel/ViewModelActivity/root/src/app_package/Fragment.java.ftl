@@ -13,7 +13,8 @@ import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import ${packageName}.viewmodel.view.${viewClass};
 import ${packageName}.viewmodel.${modelClass};
 
-public class ${screenClass} extends ViewModelBaseFragment<${viewClass}, ${modelClass}> {
+public class ${screenClass} extends ViewModelBaseFragment<${viewClass}, ${modelClass}>
+    implements ${viewClass}{
 
     @CheckResult
     @NonNull
@@ -23,6 +24,12 @@ public class ${screenClass} extends ViewModelBaseFragment<${viewClass}, ${modelC
         final ${screenClass} fragment = new ${screenClass}();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setModelView(this);
     }
 
     @Nullable

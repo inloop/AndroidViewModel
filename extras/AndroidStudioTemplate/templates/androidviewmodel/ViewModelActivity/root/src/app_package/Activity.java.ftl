@@ -12,7 +12,8 @@ import ${packageName}.viewmodel.view.${viewClass};
 import ${packageName}.viewmodel.${modelClass};
 
 
-public class ${screenClass} extends ViewModelBaseActivity<${viewClass}, ${modelClass}> {
+public class ${screenClass} extends ViewModelBaseActivity<${viewClass}, ${modelClass}>
+    implements ${viewClass}{
 
     @CheckResult
     @NonNull
@@ -26,6 +27,7 @@ public class ${screenClass} extends ViewModelBaseActivity<${viewClass}, ${modelC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.${layoutName});
+        setModelView(this);
     }
 
     @Override
