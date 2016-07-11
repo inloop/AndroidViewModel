@@ -39,9 +39,10 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
         setModelView(this);
     }
 
+    @Nullable
     @Override
-    public Class<PageModel> getViewModelClass() {
-        return PageModel.class;
+    public PageModel createViewModel() {
+        return new PageModel();
     }
 
     @Override

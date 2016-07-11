@@ -19,7 +19,12 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelClass(), getIntent().getExtras());
+        mViewModeHelper.onCreate(this, savedInstanceState, new CreateViewModelCallback() {
+            @Override
+            public AbstractViewModel onViewModelRequested() {
+                return createViewModel();
+            }
+        }, getIntent().getExtras());
     }
 
     /**
@@ -31,8 +36,7 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
         mViewModeHelper.setView(view);
     }
 
-    @Nullable
-    public abstract Class<R> getViewModelClass();
+    public abstract R createViewModel();
 
     @CallSuper
     @Override

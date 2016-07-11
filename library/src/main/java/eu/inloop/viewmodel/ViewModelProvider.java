@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 
 import java.util.HashMap;
 
+import eu.inloop.viewmodel.base.CreateViewModelCallback;
+
 /**
  * Create and keep this class inside your Activity. Store it
  * in {@link android.support.v4.app.FragmentActivity#onRetainCustomNonConfigurationInstance()
@@ -51,21 +53,21 @@ public class ViewModelProvider {
 
     @SuppressWarnings("unchecked")
     @NonNull
-    public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(@NonNull final String modelIdentifier,
-                                                                           @NonNull final Class<? extends AbstractViewModel<T>> viewModelClass) {
+    public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(final String modelIdentifier,
+                                                                           @NonNull final CreateViewModelCallback createViewModelCallback) {
         AbstractViewModel<T> instance = (AbstractViewModel<T>) mViewModelCache.get(modelIdentifier);
         if (instance != null) {
             return new ViewModelWrapper<>(instance, false);
         }
 
         try {
-            instance = viewModelClass.newInstance();
-        } catch (final Exception ex) {
+            instance = createViewModelCallback.onViewModelRequested();
+            instance.setUniqueIdentifier(modelIdentifier);
+            mViewModelCache.put(modelIdentifier, instance);
+            return new ViewModelWrapper<>(instance, true);
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-        instance.setUniqueIdentifier(modelIdentifier);
-        mViewModelCache.put(modelIdentifier, instance);
-        return new ViewModelWrapper<>(instance, true);
     }
 
     final static class ViewModelWrapper<T extends IView> {

@@ -21,8 +21,16 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getViewModelHelper().onCreate(getActivity(), savedInstanceState, getViewModelClass(), getArguments());
+        getViewModelHelper().onCreate(getActivity(), savedInstanceState, new CreateViewModelCallback() {
+            @Override
+            public AbstractViewModel onViewModelRequested() {
+                return createViewModel();
+            }
+        }, getArguments());
     }
+
+    @Nullable
+    public abstract R createViewModel();
 
     @CallSuper
     @Override
@@ -58,9 +66,6 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
         getViewModelHelper().onDestroy(this);
         super.onDestroy();
     }
-
-    @Nullable
-    public abstract Class<R> getViewModelClass();
 
     /**
      * @see ViewModelHelper#getViewModel()

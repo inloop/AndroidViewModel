@@ -37,9 +37,10 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
         setModelView(this);
     }
 
+    @Nullable
     @Override
-    public Class<SampleArgumentViewModel> getViewModelClass() {
-        return SampleArgumentViewModel.class;
+    public SampleArgumentViewModel createViewModel() {
+        return new SampleArgumentViewModel();
     }
 
 }

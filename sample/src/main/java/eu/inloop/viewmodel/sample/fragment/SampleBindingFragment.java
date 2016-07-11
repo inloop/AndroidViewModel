@@ -36,8 +36,7 @@ public class SampleBindingFragment
 
     @Nullable
     @Override
-    public Class<SampleBindingViewModel> getViewModelClass() {
-        return SampleBindingViewModel.class;
+    public SampleBindingViewModel createViewModel() {
+        return new SampleBindingViewModel();
     }
-
 }
