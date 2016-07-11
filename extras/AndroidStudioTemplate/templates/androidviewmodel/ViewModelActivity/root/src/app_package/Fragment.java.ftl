@@ -16,7 +16,7 @@ import ${packageName}.viewmodel.${modelClass};
 public class ${screenClass} extends ViewModelBaseFragment<${viewClass}, ${modelClass}> {
 
     @CheckResult
-	@NonNull
+    @NonNull
     public static ${screenClass} newInstance() {
         final Bundle bundle = new Bundle();
         //add stuff to bundle

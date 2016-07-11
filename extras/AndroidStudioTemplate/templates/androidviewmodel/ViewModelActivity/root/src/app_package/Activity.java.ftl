@@ -15,7 +15,7 @@ import ${packageName}.viewmodel.${modelClass};
 public class ${screenClass} extends ViewModelBaseActivity<${viewClass}, ${modelClass}> {
 
     @CheckResult
-	@NonNull
+    @NonNull
     public static Intent createIntent(@NonNull final Context context){
         final Intent intent = new Intent(context, ${screenClass}.class);
         //add stuff
