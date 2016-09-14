@@ -3,6 +3,7 @@ package eu.inloop.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,7 +43,7 @@ public abstract class AbstractViewModel<T extends IView> {
      *               only in case the system is killed due to low memory
      *               and restored (and {@link #onSaveInstanceState(Bundle)} returned a non-null bundle.
      */
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "UnusedParameters"})
     public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
 
     }
@@ -50,8 +51,9 @@ public abstract class AbstractViewModel<T extends IView> {
     /**
      * This method is an equivalent of {@link Fragment#onViewCreated(View, Bundle)} or {@link Activity#onCreate(Bundle)}.
      * At this point, the View is ready and you can initialise it.
-     * @param view
+     * @param view - View assigned to this ViewModel
      */
+    @CallSuper
     public void onBindView(@NonNull T view) {
         mBindViewWasCalled = true;
         mView = view;
@@ -62,21 +64,22 @@ public abstract class AbstractViewModel<T extends IView> {
         return mView;
     }
 
+    @CallSuper
     public void clearView() {
         mView = null;
     }
 
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "UnusedParameters"})
     public void onSaveInstanceState(@NonNull final Bundle bundle) {
 
     }
 
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "WeakerAccess"})
     public void onStop() {
 
     }
 
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "WeakerAccess"})
     public void onStart() {
         if (mView == null && !mBindViewWasCalled) {
             Log.e("AndroidViewModel", this.getClass().getSimpleName() + " - no view associated. You probably did not call setModelView() in your Fragment or Activity");

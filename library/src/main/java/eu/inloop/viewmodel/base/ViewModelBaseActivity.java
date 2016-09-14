@@ -1,21 +1,25 @@
 package eu.inloop.viewmodel.base;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
+import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.ViewModelHelper;
 
 public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
 
+    @NonNull
     private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
 
+    @CallSuper
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelClass(), getIntent().getExtras());
+        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelFactory(), getIntent().getExtras());
     }
 
     /**
@@ -27,26 +31,31 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
         mViewModeHelper.setView(view);
     }
 
-    public abstract Class<R> getViewModelClass();
+    @Nullable
+    public abstract IViewModelFactory<T> getViewModelFactory();
 
+    @CallSuper
     @Override
     public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         mViewModeHelper.onSaveInstanceState(outState);
     }
 
+    @CallSuper
     @Override
     public void onStart() {
         super.onStart();
         mViewModeHelper.onStart();
     }
 
+    @CallSuper
     @Override
     public void onStop() {
         super.onStop();
         mViewModeHelper.onStop();
     }
 
+    @CallSuper
     @Override
     public void onDestroy() {
         mViewModeHelper.onDestroy(this);

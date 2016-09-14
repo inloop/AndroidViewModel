@@ -1,23 +1,18 @@
 package eu.inloop.viewmodel.sample.viewmodel;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
 
+
 public class SampleArgumentViewModel extends AbstractViewModel<IView> {
 
-    public static final String ARG_INT_USER_ID = "ARG_INT_USER_ID";
+    public void setUserId(int userId) {
+        Log.d("SampleArgumentViewModel", "userId passed to ViewModel with the value of - " + userId);
+    }
 
-    @Override
-    public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
-        super.onCreate(arguments, savedInstanceState);
-
-        Log.d("SampleArgumentViewModel", "ViewModel created with argument - " + arguments.getInt(ARG_INT_USER_ID));
-        if (savedInstanceState != null) {
-            Log.d("SampleArgumentViewModel", "Application killed by system, viewmodel is restored");
-        }
+    public void viewModelRestored() {
+        Log.d("SampleArgumentViewModel", "Application killed by system, viewmodel is restored");
     }
 }
