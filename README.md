@@ -106,7 +106,7 @@ Download
 
 Grab via Gradle:
 ```groovy
-compile 'eu.inloop:androidviewmodel:1.0.0'
+compile 'eu.inloop:androidviewmodel:1.0.1'
 ```
 
 Build and study sample application from source code or download from Google Play.<br/>

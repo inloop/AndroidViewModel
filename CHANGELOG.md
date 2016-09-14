@@ -1,3 +1,7 @@
+## 1.0.1(2016-9-14)
+  
+  - Updated dependencies (gradle, build tools, support library). 
+
 ## 1.0.0(2016-05-02)
 
   - We decided it's time for 1.0.0 release after a lot of use in production projects.
