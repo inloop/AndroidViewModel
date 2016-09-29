@@ -10,9 +10,6 @@ import android.util.Log;
 
 import java.util.UUID;
 
-import eu.inloop.viewmodel.BuildConfig;
-
-
 public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
     @Nullable
