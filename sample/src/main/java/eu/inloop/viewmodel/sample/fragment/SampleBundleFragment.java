@@ -1,6 +1,7 @@
 package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,13 @@ import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.viewmodel.SampleArgumentViewModel;
 
 
-public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArgumentViewModel> implements IViewModelFactory<IView> {
+public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArgumentViewModel> {
+
+    public static final String ARG_INT_USER_ID = "ARG_INT_USER_ID";
 
     public static SampleBundleFragment newInstance(int userId) {
         final Bundle bundle = new Bundle();
-        bundle.putInt(SampleArgumentViewModel.ARG_INT_USER_ID, userId);
+        bundle.putInt(ARG_INT_USER_ID, userId);
 
         final SampleBundleFragment fragment = new SampleBundleFragment();
         fragment.setArguments(bundle);
@@ -31,21 +34,28 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
         return inflater.inflate(R.layout.fragment_empty, container, false);
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.inject(this, view);
-        setView(this);
+        setModelView(this);
+
+        getViewModel().setUserId(getArguments().getInt(ARG_INT_USER_ID));
+        if (savedInstanceState != null) {
+            getViewModel().viewModelRestored();
+        }
     }
 
+    @Nullable
     @Override
-    public IViewModelFactory getViewModelFactory() {
-        return this;
-    }
-
-
-    @Override
-    public AbstractViewModel<IView> createViewModel() {
-        return new SampleArgumentViewModel();
+    public IViewModelFactory<IView> getViewModelFactory() {
+        return new IViewModelFactory<IView>() {
+            @NonNull
+            @Override
+            public AbstractViewModel<IView> createViewModel() {
+                return new SampleArgumentViewModel();
+            }
+        };
     }
 }
