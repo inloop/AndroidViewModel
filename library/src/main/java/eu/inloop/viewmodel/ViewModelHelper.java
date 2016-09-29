@@ -10,6 +10,9 @@ import android.util.Log;
 
 import java.util.UUID;
 
+import eu.inloop.viewmodel.BuildConfig;
+
+
 public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
     @Nullable
@@ -25,16 +28,16 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      * @param activity parent activity
      * @param savedInstanceState savedInstance state from {@link Activity#onCreate(Bundle)} or
      *                           {@link Fragment#onCreate(Bundle)}
-     * @param viewModelClass the {@link Class} of your ViewModel
+     * @param viewModelFactory the factory of your ViewModel
      * @param arguments pass {@link Fragment#getArguments()}  or
      *                  {@link Activity#getIntent()}.{@link Intent#getExtras() getExtras()}
      */
     public void onCreate(@NonNull Activity activity,
                          @Nullable Bundle savedInstanceState,
-                         @Nullable Class<? extends AbstractViewModel<T>> viewModelClass,
+                         @Nullable IViewModelFactory<T> viewModelFactory,
                          @Nullable Bundle arguments) {
         // no viewmodel for this fragment
-        if (viewModelClass == null) {
+        if (viewModelFactory == null) {
             mViewModel = null;
             return;
         }
@@ -48,7 +51,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         }
 
         // get model instance for this screen
-        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = getViewModelProvider(activity).getViewModelProvider().getViewModel(mScreenId, viewModelClass);
+        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = getViewModelProvider(activity).getViewModelProvider().getViewModel(mScreenId, viewModelFactory);
         //noinspection unchecked
         mViewModel = (R) viewModelWrapper.viewModel;
 
