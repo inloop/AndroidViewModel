@@ -12,10 +12,15 @@ import java.util.UUID;
 
 public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
+    @NonNull
+    private static final String STATE_STRING_SCREEN_IDENTIFIER = ViewModelHelper.class + ".state.string.identifier"; //NON-NLS
+
     @Nullable
     private String mScreenId;
+
     @Nullable
     private R mViewModel;
+
     private boolean mModelRemoved;
     private boolean mOnSaveInstanceCalled;
 
@@ -43,19 +48,29 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         if (savedInstanceState == null) {
             mScreenId = UUID.randomUUID().toString();
         } else {
-            mScreenId = savedInstanceState.getString("identifier");
+            mScreenId = savedInstanceState.getString(STATE_STRING_SCREEN_IDENTIFIER);
+            if (null == mScreenId) {
+                throw new IllegalStateException("Bundle from onSaveInstanceState() didn't contain screen identifier. " + //NON-NLS
+                        "Did you call ViewModelHelper.onSaveInstanceState?"); //NON-NLS
+            }
+
             mOnSaveInstanceCalled = false;
         }
 
         // get model instance for this screen
-        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = getViewModelProvider(activity).getViewModelProvider().getViewModel(mScreenId, viewModelClass);
+        final ViewModelProvider viewModelProvider = getViewModelProvider(activity).getViewModelProvider();
+        if (null == viewModelProvider) {
+            throw new IllegalStateException("ViewModelProvider for activity " + activity + " was null."); //NON-NLS
+        }
+        
+        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = viewModelProvider.getViewModel(mScreenId, viewModelClass);
         //noinspection unchecked
         mViewModel = (R) viewModelWrapper.viewModel;
 
         if (viewModelWrapper.wasCreated) {
             // detect that the system has killed the app - saved instance is not null, but the model was recreated
             if (BuildConfig.DEBUG && savedInstanceState != null) {
-                Log.d("model", "Fragment recreated by system - restoring viewmodel");
+                Log.d("model", "Fragment recreated by system - restoring viewmodel"); //NON-NLS
             }
             mViewModel.onCreate(arguments, savedInstanceState);
         }
@@ -174,7 +189,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      * @param bundle bundle
      */
     public void onSaveInstanceState(@NonNull Bundle bundle) {
-        bundle.putString("identifier", mScreenId);
+        bundle.putString(STATE_STRING_SCREEN_IDENTIFIER, mScreenId);
         if (mViewModel != null) {
             mViewModel.onSaveInstanceState(bundle);
             mOnSaveInstanceCalled = true;
@@ -183,12 +198,17 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
 
     private void removeViewModel(@NonNull final Activity activity) {
         if (mViewModel != null && !mModelRemoved) {
-            getViewModelProvider(activity).getViewModelProvider().remove(mScreenId);
+            final ViewModelProvider viewModelProvider = getViewModelProvider(activity).getViewModelProvider();
+            if (null == viewModelProvider) {
+                throw new IllegalStateException("ViewModelProvider for activity " + activity + " was null."); //NON-NLS
+            }
+            viewModelProvider.remove(mScreenId);
             mViewModel.onDestroy();
             mModelRemoved = true;
         }
     }
 
+    @NonNull
     private IViewModelProvider getViewModelProvider(@NonNull Activity activity) {
         if (!(activity instanceof IViewModelProvider)) {
             throw new IllegalStateException("Your activity must implement IViewModelProvider"); //NON-NLS
