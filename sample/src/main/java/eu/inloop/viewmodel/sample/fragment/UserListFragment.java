@@ -2,6 +2,7 @@ package eu.inloop.viewmodel.sample.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import eu.inloop.viewmodel.AbstractViewModel;
+import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.SampleApplication;
@@ -42,11 +45,17 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
     }
 
+    @Nullable
     @Override
-    public Class<UserListViewModel> getViewModelClass() {
-        return UserListViewModel.class;
+    public IViewModelFactory<IUserListView> getViewModelFactory() {
+        return new IViewModelFactory<IUserListView>() {
+            @NonNull
+            @Override
+            public AbstractViewModel<IUserListView> createViewModel() {
+                return new UserListViewModel();
+            }
+        };
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

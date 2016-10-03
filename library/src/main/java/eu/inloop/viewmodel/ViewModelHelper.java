@@ -30,16 +30,16 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      * @param activity parent activity
      * @param savedInstanceState savedInstance state from {@link Activity#onCreate(Bundle)} or
      *                           {@link Fragment#onCreate(Bundle)}
-     * @param viewModelClass the {@link Class} of your ViewModel
+     * @param viewModelFactory the {@link Class} of your ViewModel
      * @param arguments pass {@link Fragment#getArguments()}  or
      *                  {@link Activity#getIntent()}.{@link Intent#getExtras() getExtras()}
      */
     public void onCreate(@NonNull Activity activity,
                          @Nullable Bundle savedInstanceState,
-                         @Nullable Class<? extends AbstractViewModel<T>> viewModelClass,
+                         @Nullable IViewModelFactory<T> viewModelFactory,
                          @Nullable Bundle arguments) {
         // no viewmodel for this fragment
-        if (viewModelClass == null) {
+        if (viewModelFactory == null) {
             mViewModel = null;
             return;
         }
@@ -63,7 +63,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
             throw new IllegalStateException("ViewModelProvider for activity " + activity + " was null."); //NON-NLS
         }
         
-        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = viewModelProvider.getViewModel(mScreenId, viewModelClass);
+        final ViewModelProvider.ViewModelWrapper<T> viewModelWrapper = viewModelProvider.getViewModel(mScreenId, viewModelFactory);
         //noinspection unchecked
         mViewModel = (R) viewModelWrapper.viewModel;
 
