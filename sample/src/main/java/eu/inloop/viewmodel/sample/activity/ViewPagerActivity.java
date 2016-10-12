@@ -6,23 +6,38 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import eu.inloop.viewmodel.base.ViewModelBaseActivity;
+import javax.inject.Inject;
+import javax.inject.Provider;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import eu.inloop.viewmodel.base.ViewModelBaseEmptyActivity;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.fragment.PagerFragment;
 
+import static eu.inloop.viewmodel.sample.component.ViewPagerComponent.Injector.inject;
+
+
 public class ViewPagerActivity extends ViewModelBaseEmptyActivity {
+
+    @InjectView(R.id.pager)
+    ViewPager mViewPager;
+
+    @Inject
+    Provider<TestPagerAdapter> mAdapterProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inject(this);
         setContentView(R.layout.activity_pager);
+        ButterKnife.inject(this);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(new TestPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setAdapter(mAdapterProvider.get());
     }
 
-    private final static class TestPagerAdapter extends FragmentStatePagerAdapter {
+    public final static class TestPagerAdapter extends FragmentStatePagerAdapter {
+
         public TestPagerAdapter(FragmentManager fm) {
             super(fm);
         }

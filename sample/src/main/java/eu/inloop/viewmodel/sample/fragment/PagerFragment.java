@@ -3,7 +3,6 @@ package eu.inloop.viewmodel.sample.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,34 +10,61 @@ import android.widget.TextView;
 
 import com.squareup.leakcanary.RefWatcher;
 
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import dagger.Lazy;
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
-import eu.inloop.viewmodel.sample.SampleApplication;
 import eu.inloop.viewmodel.sample.viewmodel.PageModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.IPageView;
 
-public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> {
+import static eu.inloop.viewmodel.sample.component.PagerComponent.Injector.inject;
+
+
+public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> implements IPageView {
+
+    private static final String ARGS_POSITION = "position";
+
+    @InjectView(R.id.text)
+    TextView mTextView;
+
+    @Inject
+    RefWatcher mRefWatcher;
+
+    @Inject
+    Lazy<PageModel> mPageModelInjector;
 
     public static PagerFragment newInstance(int position) {
         final Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
+        bundle.putInt(ARGS_POSITION, position);
         final PagerFragment fragment = new PagerFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        inject(this);
+        super.onCreate(savedInstanceState);
+        setModelView(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pager, container, false);
+        View view = inflater.inflate(R.layout.fragment_pager, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((TextView)view.findViewById(R.id.text)).setText(Integer.toString(getArguments().getInt("position")));
+        mTextView.setText(Integer.toString(getArguments().getInt(ARGS_POSITION)));
     }
 
     @Nullable
@@ -48,7 +74,7 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> {
             @NonNull
             @Override
             public AbstractViewModel<IPageView> createViewModel() {
-                return new PageModel();
+                return mPageModelInjector.get();
             }
         };
     }
@@ -57,8 +83,7 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> {
     public void onDestroy() {
         super.onDestroy();
 
-        // watch for memory leaks
-        RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        //watch for memory leaks
+        mRefWatcher.watch(this);
     }
 }
