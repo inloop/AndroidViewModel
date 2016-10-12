@@ -1,9 +1,11 @@
 package eu.inloop.viewmodel;
+
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import java.util.HashMap;
+
 
 /**
  * Create and keep this class inside your Activity. Store it
