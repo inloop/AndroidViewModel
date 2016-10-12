@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
+import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.ViewModelHelper;
 
 public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
@@ -18,7 +19,7 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelClass(), getIntent().getExtras());
+        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelFactory(), getIntent().getExtras());
     }
 
     /**
@@ -31,7 +32,7 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     }
 
     @Nullable
-    public abstract Class<R> getViewModelClass();
+    public abstract IViewModelFactory<T> getViewModelFactory();
 
     @CallSuper
     @Override

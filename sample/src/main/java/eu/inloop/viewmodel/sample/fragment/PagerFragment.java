@@ -1,6 +1,7 @@
 package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.squareup.leakcanary.RefWatcher;
 
+import eu.inloop.viewmodel.AbstractViewModel;
+import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.SampleApplication;
@@ -38,9 +41,16 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> {
         ((TextView)view.findViewById(R.id.text)).setText(Integer.toString(getArguments().getInt("position")));
     }
 
+    @Nullable
     @Override
-    public Class<PageModel> getViewModelClass() {
-        return PageModel.class;
+    public IViewModelFactory<IPageView> getViewModelFactory() {
+        return new IViewModelFactory<IPageView>() {
+            @NonNull
+            @Override
+            public AbstractViewModel<IPageView> createViewModel() {
+                return new PageModel();
+            }
+        };
     }
 
     @Override
