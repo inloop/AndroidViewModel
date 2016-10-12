@@ -18,8 +18,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import eu.inloop.viewmodel.AbstractViewModel;
-import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.SampleApplication;
@@ -27,8 +25,7 @@ import eu.inloop.viewmodel.sample.activity.ViewPagerActivity;
 import eu.inloop.viewmodel.sample.viewmodel.UserListViewModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
 
-
-public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserListViewModel> implements IUserListView, IViewModelFactory {
+public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserListViewModel> implements IUserListView {
 
     @InjectView(android.R.id.progress)
     View mProgressView;
@@ -45,11 +42,11 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
     }
 
-
     @Override
-    public IViewModelFactory getViewModelFactory() {
-        return this;
+    public Class<UserListViewModel> getViewModelClass() {
+        return UserListViewModel.class;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,7 +87,7 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
                 getViewModel().deleteUser(i - mListview.getHeaderViewsCount());
             }
         });
-        setView(this);
+        setModelView(this);
     }
 
     @Override
@@ -120,11 +117,5 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         // watch for memory leaks
         RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
         refWatcher.watch(this);
-    }
-
-
-    @Override
-    public AbstractViewModel createViewModel() {
-        return new UserListViewModel();
     }
 }

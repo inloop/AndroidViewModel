@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
-import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.ViewModelHelper;
 
 public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
@@ -16,20 +15,19 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelFactory(), getIntent().getExtras());
+        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelClass(), getIntent().getExtras());
     }
-
-    public abstract IViewModelFactory getViewModelFactory();
 
     /**
      * Call this after your view is ready - usually on the end of {@link android.app.Activity#onCreate(Bundle)}
      * @param view view
      */
     @SuppressWarnings("unused")
-    public void setView(@NonNull final T view) {
+    public void setModelView(@NonNull final T view) {
         mViewModeHelper.setView(view);
     }
 
+    public abstract Class<R> getViewModelClass();
 
     @Override
     public void onSaveInstanceState(@NonNull final Bundle outState) {

@@ -2,6 +2,7 @@ package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +10,13 @@ import android.widget.TextView;
 
 import com.squareup.leakcanary.RefWatcher;
 
-import eu.inloop.viewmodel.AbstractViewModel;
-import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.SampleApplication;
 import eu.inloop.viewmodel.sample.viewmodel.PageModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.IPageView;
 
-public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> implements IViewModelFactory<IPageView> {
+public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> {
 
     public static PagerFragment newInstance(int position) {
         final Bundle bundle = new Bundle();
@@ -39,12 +38,10 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
         ((TextView)view.findViewById(R.id.text)).setText(Integer.toString(getArguments().getInt("position")));
     }
 
-
     @Override
-    public IViewModelFactory getViewModelFactory() {
-        return this;
+    public Class<PageModel> getViewModelClass() {
+        return PageModel.class;
     }
-
 
     @Override
     public void onDestroy() {
@@ -53,12 +50,5 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
         // watch for memory leaks
         RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
         refWatcher.watch(this);
-    }
-
-
-    @Override
-    public AbstractViewModel<IPageView> createViewModel() {
-        //pass arbitrary objects
-        return new PageModel();
     }
 }

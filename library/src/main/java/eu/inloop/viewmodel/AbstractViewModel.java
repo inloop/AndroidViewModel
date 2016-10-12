@@ -79,7 +79,7 @@ public abstract class AbstractViewModel<T extends IView> {
     @SuppressWarnings("EmptyMethod")
     public void onStart() {
         if (mView == null && !mBindViewWasCalled) {
-            Log.e("AndroidViewModel", this.getClass().getSimpleName() + " - no view associated. You probably did not call setView() in your Fragment or Activity");
+            Log.e("AndroidViewModel", this.getClass().getSimpleName() + " - no view associated. You probably did not call setModelView() in your Fragment or Activity");
         }
     }
 

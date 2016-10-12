@@ -8,7 +8,6 @@ import android.view.View;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
-import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.ViewModelHelper;
 
 public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractViewModel<T>> extends Fragment implements IView {
@@ -18,16 +17,17 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(getActivity(), savedInstanceState, getViewModelFactory(), getArguments());
+        mViewModeHelper.onCreate(getActivity(), savedInstanceState, getViewModelClass(), getArguments());
     }
 
-    public abstract IViewModelFactory getViewModelFactory();
+    @Nullable
+    public abstract Class<R> getViewModelClass();
 
     /**
      * Call this after your view is ready - usually on the end of {@link Fragment#onViewCreated(View, Bundle)}
      * @param view view
      */
-    protected void setView(@NonNull final T view) {
+    protected void setModelView(@NonNull final T view) {
         mViewModeHelper.setView(view);
     }
 

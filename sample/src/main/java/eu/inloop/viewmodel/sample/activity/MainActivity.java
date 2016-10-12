@@ -3,6 +3,7 @@ package eu.inloop.viewmodel.sample.activity;
 import android.os.Bundle;
 
 import butterknife.ButterKnife;
+import eu.inloop.viewmodel.base.ViewModelBaseActivity;
 import eu.inloop.viewmodel.base.ViewModelBaseEmptyActivity;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.fragment.UserListFragment;
