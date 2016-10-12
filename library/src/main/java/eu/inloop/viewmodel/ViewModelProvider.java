@@ -1,6 +1,7 @@
 package eu.inloop.viewmodel;
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 import java.util.HashMap;
@@ -13,23 +14,26 @@ import java.util.HashMap;
  */
 public class ViewModelProvider {
 
+    @NonNull
     private final HashMap<String, AbstractViewModel<? extends IView>> mViewModelCache;
 
+    @NonNull
     public static ViewModelProvider newInstance(@NonNull final FragmentActivity activity) {
         if (activity.getLastCustomNonConfigurationInstance() == null) {
             return new ViewModelProvider();
         } else {
-            return  (ViewModelProvider) activity.getLastCustomNonConfigurationInstance();
+            return (ViewModelProvider) activity.getLastCustomNonConfigurationInstance();
         }
     }
 
     @SuppressWarnings({"deprecation", "unused"})
+    @NonNull
     @Deprecated
     public static ViewModelProvider newInstance(@NonNull final Activity activity) {
         if (activity.getLastNonConfigurationInstance() == null) {
             return new ViewModelProvider();
         } else {
-            return  (ViewModelProvider) activity.getLastNonConfigurationInstance();
+            return (ViewModelProvider) activity.getLastNonConfigurationInstance();
         }
     }
 
@@ -37,7 +41,7 @@ public class ViewModelProvider {
         mViewModelCache = new HashMap<>();
     }
 
-    public synchronized void remove(String modeIdentifier) {
+    public synchronized void remove(@Nullable String modeIdentifier) {
         mViewModelCache.remove(modeIdentifier);
     }
 
@@ -47,8 +51,8 @@ public class ViewModelProvider {
 
     @SuppressWarnings("unchecked")
     @NonNull
-    public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(final String modelIdentifier,
-                                                                           final @NonNull Class<? extends AbstractViewModel<T>> viewModelClass) {
+    public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(@NonNull final String modelIdentifier,
+                                                                           @NonNull final Class<? extends AbstractViewModel<T>> viewModelClass) {
         AbstractViewModel<T> instance = (AbstractViewModel<T>) mViewModelCache.get(modelIdentifier);
         if (instance != null) {
             return new ViewModelWrapper<>(instance, false);
@@ -56,20 +60,20 @@ public class ViewModelProvider {
 
         try {
             instance = viewModelClass.newInstance();
-            instance.setUniqueIdentifier(modelIdentifier);
-            mViewModelCache.put(modelIdentifier, instance);
-            return new ViewModelWrapper<>(instance, true);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             throw new RuntimeException(ex);
         }
+        instance.setUniqueIdentifier(modelIdentifier);
+        mViewModelCache.put(modelIdentifier, instance);
+        return new ViewModelWrapper<>(instance, true);
     }
 
-    public static class ViewModelWrapper<T extends IView> {
+    final static class ViewModelWrapper<T extends IView> {
         @NonNull
-        public final AbstractViewModel<T> viewModel;
-        public final boolean wasCreated;
+        final AbstractViewModel<T> viewModel;
+        final boolean wasCreated;
 
-        private ViewModelWrapper(@NonNull AbstractViewModel<T> mViewModel, boolean mWasCreated) {
+        private ViewModelWrapper(@NonNull AbstractViewModel<T> mViewModel, final boolean mWasCreated) {
             this.viewModel = mViewModel;
             this.wasCreated = mWasCreated;
         }
