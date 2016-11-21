@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,8 +20,10 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
+import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.SampleApplication;
+import eu.inloop.viewmodel.sample.activity.SampleBindingActivity;
 import eu.inloop.viewmodel.sample.activity.ViewPagerActivity;
 import eu.inloop.viewmodel.sample.viewmodel.UserListViewModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.IUserListView;
@@ -33,6 +36,8 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     TextView mProgressText;
     @InjectView(android.R.id.list)
     ListView mListview;
+    @InjectView(R.id.open_binding_fragment)
+    Button mOpenBindingFragment;
 
     private ArrayAdapter<String> mAdapter;
 
@@ -46,7 +51,6 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     public Class<UserListViewModel> getViewModelClass() {
         return UserListViewModel.class;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,6 +78,12 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
             }
         });
         mListview.addHeaderView(headerView, null, false);
+        mOpenBindingFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SampleBindingActivity.newIntent(getActivity()));
+            }
+        });
         return view;
     }
 
@@ -98,7 +108,7 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         mAdapter.setNotifyOnChange(true);
         mAdapter.notifyDataSetChanged();
     }
-    
+
     @Override
     public void showLoading(float progress) {
         mProgressView.setVisibility(View.VISIBLE);
@@ -117,5 +127,11 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         // watch for memory leaks
         RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
         refWatcher.watch(this);
+    }
+
+    @Nullable
+    @Override
+    public ViewModelBindingConfig getViewModelBindingConfig() {
+        return null;
     }
 }
