@@ -1,3 +1,8 @@
+## 1.1.0(2016-11-24)
+
+- Added support for data binding
+- <b>Breaking change</b>: Added ```getViewModelConfig()``` to [IView](library/src/main/java/eu/inloop/viewmodel/IView.java). You don't need to make any changes if you are using the default ViewModelBaseFragment. Otherwise you need to implement this method and return null in case you don't need data binding.
+
 ## 1.0.1(2016-9-14)
   
   - Updated dependencies (gradle, build tools, support library). 
