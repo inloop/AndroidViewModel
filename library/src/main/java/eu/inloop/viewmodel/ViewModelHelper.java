@@ -79,7 +79,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         if (viewModelWrapper.wasCreated) {
             // detect that the system has killed the app - saved instance is not null, but the model was recreated
             if (BuildConfig.DEBUG && savedInstanceState != null) {
-                Log.d("model", "Fragment recreated by system - restoring viewmodel"); //NON-NLS
+                Log.d("model", "Fragment recreated by system or ViewModelStatePagerAdapter - restoring viewmodel"); //NON-NLS
             }
             mViewModel.onCreate(arguments, savedInstanceState);
         }
@@ -252,7 +252,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
         return mBinding;
     }
 
-    private void removeViewModel(@NonNull final Activity activity) {
+    public void removeViewModel(@NonNull final Activity activity) {
         if (mViewModel != null && !mModelRemoved) {
             final ViewModelProvider viewModelProvider = getViewModelProvider(activity).getViewModelProvider();
             if (null == viewModelProvider) {

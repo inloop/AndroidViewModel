@@ -20,14 +20,14 @@ public abstract class ViewModelBaseBindingFragment<T extends IView, R extends Ab
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getViewModeHelper().performBinding(this);
+        getViewModelHelper().performBinding(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getViewModeHelper().performBinding(this);
-        final ViewDataBinding binding = getViewModeHelper().getBinding();
+        getViewModelHelper().performBinding(this);
+        final ViewDataBinding binding = getViewModelHelper().getBinding();
         if (binding != null) {
             return binding.getRoot();
         } else {
@@ -39,7 +39,7 @@ public abstract class ViewModelBaseBindingFragment<T extends IView, R extends Ab
     @NotNull
     public B getBinding() {
         try {
-            return (B) getViewModeHelper().getBinding();
+            return (B) getViewModelHelper().getBinding();
         } catch (ClassCastException ex) {
             throw new IllegalStateException("Method getViewModelBindingConfig() has to return same " +
                     "ViewDataBinding type as it is set to base Fragment");

@@ -15,47 +15,47 @@ import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractViewModel<T>> extends Fragment implements IView {
 
     @NonNull
-    private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
+    private final ViewModelHelper<T, R> mViewModelHelper = new ViewModelHelper<>();
 
     @CallSuper
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getViewModeHelper().onCreate(getActivity(), savedInstanceState, getViewModelClass(), getArguments());
+        getViewModelHelper().onCreate(getActivity(), savedInstanceState, getViewModelClass(), getArguments());
     }
 
     @CallSuper
     @Override
     public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
-        getViewModeHelper().onSaveInstanceState(outState);
+        getViewModelHelper().onSaveInstanceState(outState);
     }
 
     @CallSuper
     @Override
     public void onStart() {
         super.onStart();
-        getViewModeHelper().onStart();
+        getViewModelHelper().onStart();
     }
 
     @CallSuper
     @Override
     public void onStop() {
         super.onStop();
-        getViewModeHelper().onStop();
+        getViewModelHelper().onStop();
     }
 
     @CallSuper
     @Override
     public void onDestroyView() {
-        getViewModeHelper().onDestroyView(this);
+        getViewModelHelper().onDestroyView(this);
         super.onDestroyView();
     }
 
     @CallSuper
     @Override
     public void onDestroy() {
-        getViewModeHelper().onDestroy(this);
+        getViewModelHelper().onDestroy(this);
         super.onDestroy();
     }
 
@@ -68,7 +68,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @NonNull
     @SuppressWarnings("unused")
     public R getViewModel() {
-        return getViewModeHelper().getViewModel();
+        return getViewModelHelper().getViewModel();
     }
 
     @Nullable
@@ -78,8 +78,13 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     }
 
     @NonNull
-    public ViewModelHelper<T, R> getViewModeHelper() {
-        return mViewModeHelper;
+    public ViewModelHelper<T, R> getViewModelHelper() {
+        return mViewModelHelper;
+    }
+
+    @Override
+    public void removeViewModel() {
+        mViewModelHelper.removeViewModel(getActivity());
     }
 
     /**
@@ -89,6 +94,6 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
      * @param view view
      */
     protected void setModelView(@NonNull final T view) {
-        getViewModeHelper().setView(view);
+        getViewModelHelper().setView(view);
     }
 }

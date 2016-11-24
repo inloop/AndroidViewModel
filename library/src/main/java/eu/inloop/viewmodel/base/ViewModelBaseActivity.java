@@ -70,4 +70,8 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
         return mViewModeHelper.getViewModel();
     }
 
+    @Override
+    public void removeViewModel() {
+        mViewModeHelper.removeViewModel(this);
+    }
 }
