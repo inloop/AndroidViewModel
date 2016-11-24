@@ -9,6 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+
+    <Button
+        android:id="@+id/open_binding_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Open Binding Test Fragment" />
+
     <LinearLayout
         android:id="@android:id/progress"
         android:layout_width="wrap_content"

@@ -20,54 +20,46 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(getActivity(), savedInstanceState, getViewModelClass(), getArguments());
-    }
-
-    @Nullable
-    public abstract Class<R> getViewModelClass();
-
-    /**
-     * Call this after your view is ready - usually on the end of {@link Fragment#onViewCreated(View, Bundle)}
-     * @param view view
-     */
-    protected void setModelView(@NonNull final T view) {
-        mViewModeHelper.setView(view);
+        getViewModeHelper().onCreate(getActivity(), savedInstanceState, getViewModelClass(), getArguments());
     }
 
     @CallSuper
     @Override
     public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
-        mViewModeHelper.onSaveInstanceState(outState);
+        getViewModeHelper().onSaveInstanceState(outState);
     }
 
     @CallSuper
     @Override
     public void onStart() {
         super.onStart();
-        mViewModeHelper.onStart();
+        getViewModeHelper().onStart();
     }
 
     @CallSuper
     @Override
     public void onStop() {
         super.onStop();
-        mViewModeHelper.onStop();
+        getViewModeHelper().onStop();
     }
 
     @CallSuper
     @Override
     public void onDestroyView() {
-        mViewModeHelper.onDestroyView(this);
+        getViewModeHelper().onDestroyView(this);
         super.onDestroyView();
     }
 
     @CallSuper
     @Override
     public void onDestroy() {
-        mViewModeHelper.onDestroy(this);
+        getViewModeHelper().onDestroy(this);
         super.onDestroy();
     }
+
+    @Nullable
+    public abstract Class<R> getViewModelClass();
 
     /**
      * @see ViewModelHelper#getViewModel()
@@ -75,6 +67,21 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @NonNull
     @SuppressWarnings("unused")
     public R getViewModel() {
-       return mViewModeHelper.getViewModel();
+        return getViewModeHelper().getViewModel();
+    }
+
+    @NonNull
+    public ViewModelHelper<T, R> getViewModeHelper() {
+        return mViewModeHelper;
+    }
+
+    /**
+     * Call this after your view is ready - usually on the end of {@link
+     * Fragment#onViewCreated(View, Bundle)}
+     *
+     * @param view view
+     */
+    protected void setModelView(@NonNull final T view) {
+        getViewModeHelper().setView(view);
     }
 }
