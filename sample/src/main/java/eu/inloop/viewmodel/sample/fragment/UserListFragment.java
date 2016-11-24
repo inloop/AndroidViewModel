@@ -128,10 +128,4 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
         refWatcher.watch(this);
     }
-
-    @Nullable
-    @Override
-    public ViewModelBindingConfig getViewModelBindingConfig() {
-        return null;
-    }
 }

@@ -51,10 +51,4 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> {
         RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
         refWatcher.watch(this);
     }
-
-    @Nullable
-    @Override
-    public ViewModelBindingConfig getViewModelBindingConfig() {
-        return null;
-    }
 }

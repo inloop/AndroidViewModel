@@ -42,9 +42,4 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
         return SampleArgumentViewModel.class;
     }
 
-    @Nullable
-    @Override
-    public ViewModelBindingConfig getViewModelBindingConfig() {
-        return null;
-    }
 }

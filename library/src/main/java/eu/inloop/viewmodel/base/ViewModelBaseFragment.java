@@ -10,6 +10,7 @@ import android.view.View;
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
 import eu.inloop.viewmodel.ViewModelHelper;
+import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 
 public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractViewModel<T>> extends Fragment implements IView {
 
@@ -68,6 +69,12 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @SuppressWarnings("unused")
     public R getViewModel() {
         return getViewModeHelper().getViewModel();
+    }
+
+    @Nullable
+    @Override
+    public ViewModelBindingConfig getViewModelBindingConfig() {
+        return null;
     }
 
     @NonNull
