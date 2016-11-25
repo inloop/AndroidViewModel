@@ -4,8 +4,8 @@ apply plugin: 'com.neenbedankt.android-apt'
 group='com.github.losonczitamas'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.2'
+    compileSdkVersion 25
+    buildToolsVersion '24.0.3'
 
     defaultConfig {
         applicationId 'eu.inloop.viewmodel.sample'
@@ -15,11 +15,6 @@ android {
         versionName '1.0'
     }
 
-    compileOptions {
-        encoding "UTF-8"
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -29,7 +24,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
     compile 'com.jakewharton:butterknife:5.1.2'
@@ -39,7 +34,6 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
 
     compile project(':library')
-
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.1.0-RC.1'
