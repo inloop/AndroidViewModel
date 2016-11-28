@@ -96,7 +96,7 @@ The Android implementation of [FragmentStatePagerAdapter](https://developer.andr
 We should be also removing ViewModels and storing their state to be consistent with this behaviour.
 
 <b>Use [ViewModelStatePagerAdapter](library/src/main/java/eu/inloop/viewmodel/support/ViewModelStatePagerAdapter.java) instead of the default FragmentStatePagerAdapter</b>. This class is only overriding the ```destroyItem()``` method and making sure that ViewModel is removed. The state is stored/restored automatically.
-You can also use the stnadard FragmentStatePagerAdapter - in that case ViewModels will be kept in memory and removed only when you leave the screen (Activity finished or Fragment removed).
+You can also use the standard FragmentStatePagerAdapter - in that case ViewModels will be kept in memory and removed only when you leave the screen (Activity finished or Fragment removed).
 
 How does it work?
 --------
