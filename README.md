@@ -112,9 +112,20 @@ Download
 --------
 
 Grab via Gradle:
+
 ```groovy
-compile 'eu.inloop:androidviewmodel:1.0.1'
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
 ```
 
-Build and study sample application from source code or download from Google Play.<br/>
-[![](website/static/google_play.png)](https://play.google.com/store/apps/details?id=eu.inloop.viewmodel.sample)
+```groovy
+compile 'com.github.LosoncziTamas:AndroidViewModel:1.0.0'
+```
+
+Note
+--------
+
+This fork is a temporary solution until the maintainers of AndroidViewModel merge the changes.
+
+A more complex example for using the framework with Dagger can be found [here](https://github.com/LosoncziTamas/DaggerKotlinExample).
