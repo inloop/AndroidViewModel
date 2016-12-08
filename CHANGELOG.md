@@ -1,3 +1,7 @@
+## 1.2.1(2016-12-08)
+
+- Added default (null) implementation of ```getViewModelConfig()``` to the ```ViewModelBaseActivity``` so you don't need to implement it for your Activities. 
+
 ## 1.2.0(2016-11-24)
 
 - Added better support for FragmentStatePagerAdapter by adding [ViewModelStatePagerAdapter.java](library/src/main/java/eu/inloop/viewmodel/support/ViewModelStatePagerAdapter.java).
