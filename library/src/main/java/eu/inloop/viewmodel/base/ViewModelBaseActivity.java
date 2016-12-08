@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
 import eu.inloop.viewmodel.ViewModelHelper;
+import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 
 public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
 
@@ -73,5 +74,11 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     public void removeViewModel() {
         mViewModeHelper.removeViewModel(this);
+    }
+
+    @Nullable
+    @Override
+    public ViewModelBindingConfig getViewModelBindingConfig() {
+        return null;
     }
 }
