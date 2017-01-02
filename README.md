@@ -109,5 +109,5 @@ Download
 --------
 
 ```groovy
-compile 'eu.inloop:androidviewmodel:1.2.1'
+compile 'eu.inloop:androidviewmodel:1.2.2'
 ```

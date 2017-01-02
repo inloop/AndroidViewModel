@@ -1,3 +1,7 @@
+## 1.2.2(2017-2-1)
+
+- Remove wrong jetbrains annotations import. 
+
 ## 1.2.1(2016-12-08)
 
 - Added default (null) implementation of ```getViewModelConfig()``` to the ```ViewModelBaseActivity``` so you don't need to implement it for your Activities. 
