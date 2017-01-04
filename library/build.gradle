@@ -10,7 +10,7 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName VERSION_NAME
-        consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        consumerProguardFiles 'proguard-rules.pro'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
