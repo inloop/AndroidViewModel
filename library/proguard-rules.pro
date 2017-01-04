@@ -15,3 +15,5 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn android.databinding.**
+-dontwarn eu.inloop.viewmodel.binding.**
