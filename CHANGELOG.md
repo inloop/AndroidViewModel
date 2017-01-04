@@ -1,3 +1,7 @@
+## 1.2.3(2017-4-1)
+
+- Fix ProGuard settings.
+
 ## 1.2.2(2017-2-1)
 
 - Remove wrong jetbrains annotations import. 
