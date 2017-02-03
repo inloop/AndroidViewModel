@@ -34,13 +34,11 @@ How to implement
    public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserListViewModel> 
       implements IUserListView {
 
-
        @NonNull
        @Override
        public UserListViewModel createViewModel() {
            return new UserListViewModel();
        }
-
       
    }
    ```
@@ -110,13 +108,13 @@ Download
 Grab via Gradle:
 
 ```groovy
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
+repositories {
+    maven { url "https://jitpack.io" }
+}
 ```
 
 ```groovy
-compile 'com.github.LosoncziTamas:AndroidViewModel:1.0.0'
+compile 'com.github.LosoncziTamas:AndroidViewModel:1.0.1'
 ```
 
 Note
