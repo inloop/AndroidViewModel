@@ -36,7 +36,7 @@ public class ViewModelHelper<T extends IView, R extends AbstractViewModel<T>> {
      */
     public void onCreate(@NonNull Activity activity,
                          @Nullable Bundle savedInstanceState,
-                         @Nullable IViewModelFactory<T> viewModelFactory,
+                         @Nullable IViewModelFactory<T, R> viewModelFactory,
                          @Nullable Bundle arguments) {
         // no viewmodel for this fragment
         if (viewModelFactory == null) {

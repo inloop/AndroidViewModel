@@ -22,8 +22,6 @@ import javax.inject.Provider;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import dagger.Lazy;
-import com.tamaslosonczi.viewmodel.AbstractViewModel;
-import com.tamaslosonczi.viewmodel.IViewModelFactory;
 import com.tamaslosonczi.viewmodel.base.ViewModelBaseFragment;
 import com.tamaslosonczi.viewmodel.sample.R;
 import com.tamaslosonczi.viewmodel.sample.activity.ViewPagerActivity;
@@ -60,16 +58,10 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public IViewModelFactory<IUserListView> getViewModelFactory() {
-        return new IViewModelFactory<IUserListView>() {
-            @NonNull
-            @Override
-            public AbstractViewModel<IUserListView> createViewModel() {
-                return mUserListViewModelInjector.get();
-            }
-        };
+    public UserListViewModel createViewModel() {
+        return  mUserListViewModelInjector.get();
     }
 
     @Override

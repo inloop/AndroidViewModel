@@ -15,8 +15,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import dagger.Lazy;
-import com.tamaslosonczi.viewmodel.AbstractViewModel;
-import com.tamaslosonczi.viewmodel.IViewModelFactory;
 import com.tamaslosonczi.viewmodel.base.ViewModelBaseFragment;
 import com.tamaslosonczi.viewmodel.sample.R;
 import com.tamaslosonczi.viewmodel.sample.viewmodel.PageModel;
@@ -53,6 +51,12 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
         setModelView(this);
     }
 
+    @NonNull
+    @Override
+    public PageModel createViewModel() {
+        return mPageModelInjector.get();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,17 +71,6 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
         mTextView.setText(Integer.toString(getArguments().getInt(ARGS_POSITION)));
     }
 
-    @Nullable
-    @Override
-    public IViewModelFactory<IPageView> getViewModelFactory() {
-        return new IViewModelFactory<IPageView>() {
-            @NonNull
-            @Override
-            public AbstractViewModel<IPageView> createViewModel() {
-                return mPageModelInjector.get();
-            }
-        };
-    }
 
     @Override
     public void onDestroy() {

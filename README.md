@@ -28,23 +28,19 @@ How to implement
       ....
    }
    ```
-3. Each <b>Fragment</b> or <b>Activity</b> that you would like to associate with a ViewModel will need either to extend [ViewModelActivityBase](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseActivity.java)/[ViewModelBaseFragment](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseFragment.java) or copy the implementation from these classes to your base activity/fragment class (in case you can't inherit directly). Override ```getViewModelFactory()``` to return a ViewModelFactory which produces the corresponding ViewModel class. For example: <br/>
+3. Each <b>Fragment</b> or <b>Activity</b> that you would like to associate with a ViewModel will need either to extend [ViewModelActivityBase](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseActivity.java)/[ViewModelBaseFragment](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseFragment.java) or copy the implementation from these classes to your base activity/fragment class (in case you can't inherit directly). Override ```createVideModel()``` to return a ViewModel instance. For example: <br/>
   
    ```java
    public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserListViewModel> 
       implements IUserListView {
-      
-        @Nullable
-        @Override
-        public IViewModelFactory<IView> getViewModelFactory() {
-            return new IViewModelFactory<IView>() {
-                @NonNull
-                @Override
-                public AbstractViewModel<IView> createViewModel() {
-                    return new UserListViewModel();
-                }
-            };
-        }
+
+
+       @NonNull
+       @Override
+       public UserListViewModel createViewModel() {
+           return new UserListViewModel();
+       }
+
       
    }
    ```

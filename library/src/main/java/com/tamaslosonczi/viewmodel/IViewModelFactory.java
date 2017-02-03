@@ -2,8 +2,8 @@ package com.tamaslosonczi.viewmodel;
 
 import android.support.annotation.NonNull;
 
-public interface IViewModelFactory <T extends IView> {
+public interface IViewModelFactory <T extends IView, R extends AbstractViewModel<T>> {
 
     @NonNull
-    AbstractViewModel<T> createViewModel();
+    R createViewModel();
 }

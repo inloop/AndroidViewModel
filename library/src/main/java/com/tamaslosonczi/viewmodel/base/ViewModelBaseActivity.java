@@ -10,7 +10,7 @@ import com.tamaslosonczi.viewmodel.IView;
 import com.tamaslosonczi.viewmodel.IViewModelFactory;
 import com.tamaslosonczi.viewmodel.ViewModelHelper;
 
-public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
+public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView, IViewModelFactory<T, R> {
 
     @NonNull
     private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
@@ -19,11 +19,12 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelFactory(), getIntent().getExtras());
+        mViewModeHelper.onCreate(this, savedInstanceState, this, getIntent().getExtras());
     }
 
     /**
      * Call this after your view is ready - usually on the end of {@link android.app.Activity#onCreate(Bundle)}
+     *
      * @param view view
      */
     @SuppressWarnings("unused")
@@ -31,8 +32,9 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
         mViewModeHelper.setView(view);
     }
 
-    @Nullable
-    public abstract IViewModelFactory<T> getViewModelFactory();
+    @NonNull
+    @Override
+    public abstract R createViewModel();
 
     @CallSuper
     @Override
