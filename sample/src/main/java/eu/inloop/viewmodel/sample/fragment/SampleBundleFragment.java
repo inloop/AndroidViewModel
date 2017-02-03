@@ -45,7 +45,7 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
     }
 
     @Override
-    protected SampleArgumentViewModel createViewModel() {
+    public SampleArgumentViewModel createViewModel() {
         return new SampleArgumentViewModel();
     }
 }

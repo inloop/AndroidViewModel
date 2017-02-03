@@ -12,7 +12,7 @@ import eu.inloop.viewmodel.IView;
 import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.ViewModelHelper;
 
-public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractViewModel<T>> extends Fragment implements IView {
+public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractViewModel<T>> extends Fragment implements IView, IViewModelFactory<T, R> {
 
     @NonNull
     private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
@@ -21,19 +21,14 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(getActivity(), savedInstanceState, new IViewModelFactory<T, R>() {
-            @NonNull
-            @Override
-            public R createViewModel() {
-                return ViewModelBaseFragment.this.createViewModel();
-            }
-        }, getArguments());
+        mViewModeHelper.onCreate(getActivity(), savedInstanceState, this, getArguments());
     }
 
-    protected abstract R createViewModel();
+    public abstract R createViewModel();
 
     /**
      * Call this after your view is ready - usually on the end of {@link Fragment#onViewCreated(View, Bundle)}
+     *
      * @param view view
      */
     protected void setModelView(@NonNull final T view) {
@@ -81,6 +76,6 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @NonNull
     @SuppressWarnings("unused")
     public R getViewModel() {
-       return mViewModeHelper.getViewModel();
+        return mViewModeHelper.getViewModel();
     }
 }

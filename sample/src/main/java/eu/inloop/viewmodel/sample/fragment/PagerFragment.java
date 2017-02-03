@@ -51,7 +51,7 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
     }
 
     @Override
-    protected PageModel createViewModel() {
+    public PageModel createViewModel() {
         return mPageModelInjector.get();
     }
 

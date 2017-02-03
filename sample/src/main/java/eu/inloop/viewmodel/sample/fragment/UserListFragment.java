@@ -58,7 +58,7 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     }
 
     @Override
-    protected UserListViewModel createViewModel() {
+    public UserListViewModel createViewModel() {
         return  mUserListViewModelInjector.get();
     }
 
