@@ -2,7 +2,6 @@ package eu.inloop.viewmodel.sample.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,6 @@ import javax.inject.Provider;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import dagger.Lazy;
-import eu.inloop.viewmodel.AbstractViewModel;
-import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.activity.ViewPagerActivity;
@@ -60,16 +57,9 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
     @Override
-    public IViewModelFactory<IUserListView> getViewModelFactory() {
-        return new IViewModelFactory<IUserListView>() {
-            @NonNull
-            @Override
-            public AbstractViewModel<IUserListView> createViewModel() {
-                return mUserListViewModelInjector.get();
-            }
-        };
+    protected UserListViewModel createViewModel() {
+        return  mUserListViewModelInjector.get();
     }
 
     @Override

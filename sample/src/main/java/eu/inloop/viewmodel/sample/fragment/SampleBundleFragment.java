@@ -1,16 +1,13 @@
 package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
-import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
-import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.viewmodel.SampleArgumentViewModel;
@@ -47,15 +44,8 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
         }
     }
 
-    @Nullable
     @Override
-    public IViewModelFactory<IView> getViewModelFactory() {
-        return new IViewModelFactory<IView>() {
-            @NonNull
-            @Override
-            public AbstractViewModel<IView> createViewModel() {
-                return new SampleArgumentViewModel();
-            }
-        };
+    protected SampleArgumentViewModel createViewModel() {
+        return new SampleArgumentViewModel();
     }
 }

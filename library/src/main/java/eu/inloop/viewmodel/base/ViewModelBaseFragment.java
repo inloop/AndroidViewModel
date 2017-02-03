@@ -21,11 +21,16 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(getActivity(), savedInstanceState, getViewModelFactory(), getArguments());
+        mViewModeHelper.onCreate(getActivity(), savedInstanceState, new IViewModelFactory<T, R>() {
+            @NonNull
+            @Override
+            public R createViewModel() {
+                return ViewModelBaseFragment.this.createViewModel();
+            }
+        }, getArguments());
     }
 
-    @Nullable
-    public abstract IViewModelFactory<T> getViewModelFactory();
+    protected abstract R createViewModel();
 
     /**
      * Call this after your view is ready - usually on the end of {@link Fragment#onViewCreated(View, Bundle)}

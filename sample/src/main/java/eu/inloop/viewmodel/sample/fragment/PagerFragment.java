@@ -1,7 +1,6 @@
 package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import dagger.Lazy;
-import eu.inloop.viewmodel.AbstractViewModel;
-import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.viewmodel.PageModel;
@@ -53,6 +50,11 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
         setModelView(this);
     }
 
+    @Override
+    protected PageModel createViewModel() {
+        return mPageModelInjector.get();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,17 +69,6 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
         mTextView.setText(Integer.toString(getArguments().getInt(ARGS_POSITION)));
     }
 
-    @Nullable
-    @Override
-    public IViewModelFactory<IPageView> getViewModelFactory() {
-        return new IViewModelFactory<IPageView>() {
-            @NonNull
-            @Override
-            public AbstractViewModel<IPageView> createViewModel() {
-                return mPageModelInjector.get();
-            }
-        };
-    }
 
     @Override
     public void onDestroy() {
