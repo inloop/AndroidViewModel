@@ -47,15 +47,9 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
         }
     }
 
-    @Nullable
+    @NonNull
     @Override
-    public IViewModelFactory<IView> getViewModelFactory() {
-        return new IViewModelFactory<IView>() {
-            @NonNull
-            @Override
-            public AbstractViewModel<IView> createViewModel() {
-                return new SampleArgumentViewModel();
-            }
-        };
+    public SampleArgumentViewModel createViewModel() {
+        return new SampleArgumentViewModel();
     }
 }
