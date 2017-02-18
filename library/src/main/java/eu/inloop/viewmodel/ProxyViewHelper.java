@@ -10,7 +10,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 
-class ProxyViewHelper {
+public class ProxyViewHelper {
 
     private static final class ProxyDummyClass {
     }
@@ -29,7 +29,7 @@ class ProxyViewHelper {
     }
 
     @Nullable
-    static Class<?> getGenericType(@NonNull Class<?> in, @NonNull Class<?> whichExtends) {
+    public static Class<?> getGenericType(@NonNull Class<?> in, @NonNull Class<?> whichExtends) {
         final Type genericSuperclass = in.getGenericSuperclass();
         if (genericSuperclass instanceof ParameterizedType) {
             final Type[] typeArgs = ((ParameterizedType) genericSuperclass).getActualTypeArguments();
