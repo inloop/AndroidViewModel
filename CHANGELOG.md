@@ -1,7 +1,7 @@
 ## 1.3.0(2017-18-2)
 
-Added ``getViewOptional()`` method which is guaranteed to be non-null. It will return a dummy implemenation in case the View is not null.
-Removed the need to override ```getViewModelClass```, the ViewModel class is now automatically extracted from the ViewModel class definition.
+- Added ``getViewOptional()`` method which is guaranteed to be non-null. It will return a dummy implemenation in case the View is not null.
+- Removed the need to override ```getViewModelClass```, the ViewModel class is now automatically extracted from the ViewModel class definition.
 
 ## 1.2.3(2017-4-1)
 
