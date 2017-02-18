@@ -73,6 +73,12 @@ public abstract class AbstractViewModel<T extends IView> {
         return mView;
     }
 
+    /**
+     * Alternative to {@link #getView()}. This method will never return a null view - not even in case the current Fragment or
+     * Activity is already destroyed or between orientation change. It will return a dummy
+     * implementation in that case.
+     * @return the View instance which implements {@link T}. It's never null.
+     */
     @CheckResult
     @NonNull
     public T getViewOptional() {
