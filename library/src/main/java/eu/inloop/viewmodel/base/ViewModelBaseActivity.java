@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
+import eu.inloop.viewmodel.ProxyViewHelper;
 import eu.inloop.viewmodel.ViewModelHelper;
 import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 
@@ -19,7 +20,14 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModeHelper.onCreate(this, savedInstanceState, getViewModelClass(), getIntent().getExtras());
+        
+        Class<? extends AbstractViewModel<T>> viewModelClass = getViewModelClass();
+        // try to extract the ViewModel class from the implementation
+        if (viewModelClass == null) {
+            //noinspection unchecked
+            viewModelClass = (Class<? extends AbstractViewModel<T>>) ProxyViewHelper.getGenericType(getClass(), AbstractViewModel.class);
+        }
+        mViewModeHelper.onCreate(this, savedInstanceState, viewModelClass, getIntent().getExtras());
     }
 
     /**
@@ -32,7 +40,9 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     }
 
     @Nullable
-    public abstract Class<R> getViewModelClass();
+    public Class<R> getViewModelClass() {
+        return null;
+    }
 
     @CallSuper
     @Override

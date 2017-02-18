@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,14 @@ public abstract class AbstractViewModel<T extends IView> {
     @Nullable
     private T mView;
 
+    @Nullable
+    private final Class<?> mClassType;
+
     private boolean mBindViewWasCalled;
+
+    public AbstractViewModel() {
+        mClassType = ProxyViewHelper.getGenericType(getClass(), IView.class);
+    }
 
     void setUniqueIdentifier(@NonNull final String uniqueIdentifier) {
         mUniqueIdentifier = uniqueIdentifier;
@@ -59,9 +67,23 @@ public abstract class AbstractViewModel<T extends IView> {
         mView = view;
     }
 
+    @CheckResult
     @Nullable
     public T getView() {
         return mView;
+    }
+
+    @CheckResult
+    @NonNull
+    public T getViewOptional() {
+        if (mView != null) {
+            return mView;
+        } else {
+            if (mClassType == null) {
+                throw new IllegalStateException("Your view must implement IView");
+            }
+            return ProxyViewHelper.init(mClassType);
+        }
     }
 
     @CallSuper
