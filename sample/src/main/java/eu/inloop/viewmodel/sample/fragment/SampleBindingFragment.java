@@ -33,11 +33,4 @@ public class SampleBindingFragment
     public ViewModelBindingConfig getViewModelBindingConfig() {
         return new ViewModelBindingConfig(R.layout.fragment_sample_binding, getActivity());
     }
-
-    @Nullable
-    @Override
-    public Class<SampleBindingViewModel> getViewModelClass() {
-        return SampleBindingViewModel.class;
-    }
-
 }

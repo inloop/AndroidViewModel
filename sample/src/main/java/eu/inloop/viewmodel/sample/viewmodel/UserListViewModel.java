@@ -48,9 +48,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
     private void loadUsers() {
         mLoadingUsers = true;
         mCurrentLoadingProgress = 0;
-        if (getView() != null) {
-            getView().showLoading(mCurrentLoadingProgress);
-        }
+        getViewOptional().showLoading(mCurrentLoadingProgress);
         new AsyncTask<Void, Float, List<String>>() {
 
             @Override
@@ -74,9 +72,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
             protected void onProgressUpdate(Float... values) {
                 super.onProgressUpdate(values);
                 mCurrentLoadingProgress = values[0];
-                if (getView() != null) {
-                    getView().showLoading(mCurrentLoadingProgress);
-                }
+                getViewOptional().showLoading(mCurrentLoadingProgress);
             }
 
             @Override
@@ -84,10 +80,8 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
                 super.onPostExecute(s);
                 mLoadedUsers = s;
                 mLoadingUsers = false;
-                if (getView() != null) {
-                    getView().showUsers(s);
-                    getView().hideProgress();
-                }
+                getViewOptional().showUsers(s);
+                getViewOptional().hideProgress();
             }
         }.execute();
     }
@@ -97,9 +91,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
             return;
         }
         mLoadedUsers.set(position, "Deleting in 5 seconds...");
-        if (getView() != null) {
-            getView().showUsers(mLoadedUsers);
-        }
+        getViewOptional().showUsers(mLoadedUsers);
 
         final String itemToDelete = mLoadedUsers.get(position);
         new AsyncTask<Void, Void, Void>() {
@@ -118,9 +110,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                if (getView() != null) {
-                    getView().showUsers(mLoadedUsers);
-                }
+                getViewOptional().showUsers(mLoadedUsers);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

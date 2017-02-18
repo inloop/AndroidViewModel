@@ -48,11 +48,6 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     }
 
     @Override
-    public Class<UserListViewModel> getViewModelClass() {
-        return UserListViewModel.class;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_userlist, container, false);
         ButterKnife.inject(this, view);

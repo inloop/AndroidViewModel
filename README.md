@@ -27,16 +27,11 @@ How to implement
       ....
    }
    ```
-3. Each <b>Fragment</b> or <b>Activity</b> that you would like to associate with a ViewModel will need either to extend [ViewModelActivityBase](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseActivity.java)/[ViewModelBaseFragment](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseFragment.java) or copy the implementation from these classes to your base activity/fragment class (in case you can't inherit directly). Override ```getViewModelClass()``` to return the corresponding ViewModel class. For example: <br/>
+3. Each <b>Fragment</b> or <b>Activity</b> that you would like to associate with a ViewModel will need either to extend [ViewModelActivityBase](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseActivity.java)/[ViewModelBaseFragment](library/src/main/java/eu/inloop/viewmodel/base/ViewModelBaseFragment.java) or copy the implementation from these classes to your base activity/fragment class (in case you can't inherit directly). For example: <br/>
   
    ```java
    public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserListViewModel> 
       implements IUserListView {
-      
-     @Override
-      public Class<UserListViewModel> getViewModelClass() {
-          return UserListViewModel.class;
-      }
       
    }
    ```
@@ -64,6 +59,13 @@ You can forward user interaction from the View into the ViewModel simply by call
 The same goes for the opposite direction, when your asynchronous operation in the ViewModel finished and you would like to forward data to the View to show a list for example:
 
   ```java
+  getViewOptional().showUsers(userList);
+  ```
+
+The ```getViewOptional()``` method will never return null. It will return a dummy implementation in case the View is null at the moment (e.g. Fragment already destroyed, or between orientation change).
+You can also check if the View is not null in case you need to:  
+  
+  ```java
   if (getView() != null) {
       getView().showUsers(userList);
   }
@@ -76,6 +78,7 @@ Your Fragment argument Bundle and Activity intent Bundle is forwarded to the Vie
       long userId = arguments.getInt("user_id", -1);
    }
    ``` 
+    
 
 Data binding support
 --------

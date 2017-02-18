@@ -40,11 +40,6 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
     }
 
     @Override
-    public Class<PageModel> getViewModelClass() {
-        return PageModel.class;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
 

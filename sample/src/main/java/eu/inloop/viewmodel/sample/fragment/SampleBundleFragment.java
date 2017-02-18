@@ -36,10 +36,4 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
         ButterKnife.inject(this, view);
         setModelView(this);
     }
-
-    @Override
-    public Class<SampleArgumentViewModel> getViewModelClass() {
-        return SampleArgumentViewModel.class;
-    }
-
 }
