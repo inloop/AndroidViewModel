@@ -1,3 +1,7 @@
+## 1.3.1(2017-20-2)
+
+- Critical issue fixed that was introduced two days ago in 1.3.0 - please update to 1.3.1 (issue is related to the new getViewOptional() method).
+
 ## 1.3.0(2017-18-2)
 
 - Added ``getViewOptional()`` method which is guaranteed to be non-null. It will return a dummy implemenation in case the View is not null.
