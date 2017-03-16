@@ -7,11 +7,12 @@ import android.support.annotation.Nullable;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.IView;
+import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.ProxyViewHelper;
 import eu.inloop.viewmodel.ViewModelHelper;
 import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 
-public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView  {
+public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractViewModel<T>> extends ViewModelBaseEmptyActivity implements IView {
 
     @NonNull
     private final ViewModelHelper<T, R> mViewModeHelper = new ViewModelHelper<>();
@@ -20,14 +21,29 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        Class<? extends AbstractViewModel<T>> viewModelClass = getViewModelClass();
+
+        IViewModelFactory<T, R> viewModelFactory = getViewModelFactory();
         // try to extract the ViewModel class from the implementation
-        if (viewModelClass == null) {
+        if (viewModelFactory == null) {
             //noinspection unchecked
-            viewModelClass = (Class<? extends AbstractViewModel<T>>) ProxyViewHelper.getGenericType(getClass(), AbstractViewModel.class);
+            final Class<? extends AbstractViewModel<T>> viewModelClass = (Class<? extends AbstractViewModel<T>>) ProxyViewHelper.getGenericType(getClass(), AbstractViewModel.class);
+            if (viewModelClass != null) {
+                viewModelFactory = new  IViewModelFactory<T, R>() {
+                    @Nullable
+                    @Override
+                    public R createViewModel() {
+                        try {
+                            return (R) viewModelClass.newInstance();
+                        } catch (InstantiationException e) {
+                            throw new RuntimeException(e);
+                        } catch (IllegalAccessException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                };
+            }
         }
-        mViewModeHelper.onCreate(this, savedInstanceState, viewModelClass, getIntent().getExtras());
+        mViewModeHelper.onCreate(this, savedInstanceState, viewModelFactory, getIntent().getExtras());
     }
 
     /**
@@ -40,7 +56,7 @@ public abstract class ViewModelBaseActivity<T extends IView, R extends AbstractV
     }
 
     @Nullable
-    public Class<R> getViewModelClass() {
+    public  IViewModelFactory<T, R> getViewModelFactory() {
         return null;
     }
 

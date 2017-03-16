@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import eu.inloop.viewmodel.IViewModelFactory;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 import eu.inloop.viewmodel.sample.R;
@@ -45,6 +46,18 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
+    }
+
+    @Nullable
+    @Override
+    public IViewModelFactory<IUserListView, UserListViewModel> getViewModelFactory() {
+        return new  IViewModelFactory<IUserListView, UserListViewModel>() {
+            @Nullable
+            @Override
+            public UserListViewModel createViewModel() {
+                return new UserListViewModel();
+            }
+        };
     }
 
     @Override

@@ -52,17 +52,13 @@ public class ViewModelProvider {
     @SuppressWarnings("unchecked")
     @NonNull
     public synchronized <T extends IView> ViewModelWrapper<T> getViewModel(@NonNull final String modelIdentifier,
-                                                                           @NonNull final Class<? extends AbstractViewModel<T>> viewModelClass) {
+                                                                           @NonNull final IViewModelFactory<T, ? extends AbstractViewModel<T>> viewModelFactory) {
         AbstractViewModel<T> instance = (AbstractViewModel<T>) mViewModelCache.get(modelIdentifier);
         if (instance != null) {
             return new ViewModelWrapper<>(instance, false);
         }
 
-        try {
-            instance = viewModelClass.newInstance();
-        } catch (final Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        instance = viewModelFactory.createViewModel();
         instance.setUniqueIdentifier(modelIdentifier);
         mViewModelCache.put(modelIdentifier, instance);
         return new ViewModelWrapper<>(instance, true);
