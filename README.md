@@ -15,10 +15,10 @@ How to implement
 1. Create an interface for your <b>View</b> by extending [IView](library/src/main/java/eu/inloop/viewmodel/IView.java). We will call it IUserListView for this example.
 
    ```java
-   
-  public interface IUserListView extends IView {
-      public void showUsers(List<User> users);
-  }
+    public interface IUserListView extends IView {
+         public void showUsers(List<User> users);
+    }
+
    ```
 2. Create your <b>ViewModel</b> class by extending [AbstractViewModel](library/src/main/java/eu/inloop/viewmodel/AbstractViewModel.java). For example: <br/>
 
