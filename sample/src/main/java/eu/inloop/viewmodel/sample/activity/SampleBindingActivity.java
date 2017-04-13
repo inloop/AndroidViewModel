@@ -12,8 +12,7 @@ import eu.inloop.viewmodel.sample.fragment.SampleBindingFragment;
 public class SampleBindingActivity extends ViewModelBaseEmptyActivity {
 
     public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, SampleBindingActivity.class);
-        return intent;
+        return new Intent(context, SampleBindingActivity.class);
     }
 
     @Override

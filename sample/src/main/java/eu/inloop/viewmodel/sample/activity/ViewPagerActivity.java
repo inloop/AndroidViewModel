@@ -22,7 +22,7 @@ public class ViewPagerActivity extends ViewModelBaseEmptyActivity {
     }
 
     private final static class TestPagerAdapter extends ViewModelStatePagerAdapter {
-        public TestPagerAdapter(FragmentManager fm) {
+        TestPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
