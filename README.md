@@ -114,3 +114,24 @@ Download
 ```groovy
 compile 'eu.inloop:androidviewmodel:1.3.1'
 ```
+
+## Android Studio Template
+For faster creating new screens, you can use [Android Studio Template](/template/AVM_Inloop)
+
+![Android Studio Template Window](/template/template-preview.png)
+
+### Install template
+#### Manually:
+Copy the template folder to Android Studio templates folder (`/Applications/Android Studio.app/Contents/plugins/android/lib/templates/others` on Mac)
+#### Automatically:
+Run the following command to download and install the template automatically (Mac only)
+```
+curl -o androidviewmodel.zip -Lk https://github.com/inloop/AndroidViewModel/archive/master.zip && unzip androidviewmodel.zip && cp -af AndroidViewModel-master/template/AVM_Inloop/. "/Applications/Android Studio.app/Contents/plugins/android/lib/templates/other/AVM_Inloop" && rm -r AndroidViewModel-master && rm androidviewmodel.zip
+```
+<b>Don't forget to restart the Android Studio.</b>
+
+### Usage
+In the Android Studio right click inside the Projet window and select `File > New > AndroidViewModel Inloop > AVM Fragment`
+
+
+![Android Studio New Template](/template/create-new-template-preview.png)
