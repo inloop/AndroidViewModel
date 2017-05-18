@@ -1,0 +1,90 @@
+<template format="4"
+        revision="1"
+        name="AVM Fragment"
+        minApi="15"
+        minBuildApi="15"
+        description="Creates a new AVM Fragment, ViweModel and Layout">
+ 
+    <category value="AndroidViewModel Inloop"/>
+    <formfactor value="Mobile" />
+
+    <parameter
+        id="screenType"
+        name="Screen Type"
+        type="enum"
+        default="Fragment"
+        help="Either an Fragment or Fragment with data binding">
+
+        <option id="Fragment">Fragment</option>
+        <option id="BindingFragment">Fragment with data binding</option>
+    </parameter>
+
+    <parameter
+        id="screenClass"
+        name="Screen Name"
+        type="string"
+        suggest="Main${screenType?replace('Binding', '')}"
+        constraints="class|unique|nonempty"
+        default="MainFragment"
+        help="The name of the screen class to create" />
+
+    <parameter
+        id="layoutName"
+        name="Layout Name"
+        type="string"
+        constraints="layout|unique|nonempty"
+        suggest="${screenType?lower_case?replace('binding', '')}_${classToResource(screenClass)}"
+        default="fragment_main"
+        help="The name of the layout to create for the screen" />
+
+    <parameter
+        id="viewModelClass"
+        name="ViewModel class name"
+        type="string"
+        constraints="class|unique|nonempty"
+        suggest="${screenClass?replace('_', '')?replace('Fragment', '')}ViewModel"
+        default="MainViewModel"
+        help="The name of the ViewModel class to create" />
+
+    <parameter
+        id="generateViewInterface"
+        name="Generate view interface"
+        type="boolean"
+        default="true"
+        help="Generate child interface of IView with screen name." />
+
+    <parameter
+        id="packageName"
+        name="Package name"
+        type="string"
+        constraints="package"
+        default="com.company.myapp" />
+
+    <parameter
+        id="vmPackage"
+        name="View model package name"
+        type="string"
+        default="viewmodel" />
+
+    <parameter
+        id="vPackage"
+        name="View interface package name"
+        type="string"
+        default="viewmodel/view" />
+
+    <parameter
+        id="scrPackage"
+        name="Screen package name"
+        type="string"
+        default="fragment" />
+        
+    <!-- 128x128 thumbnails relative to template.xml -->
+    <thumbs>
+        <!-- default thumbnail is required -->
+        <thumb>avm_inloop_template_preview.png</thumb>
+    </thumbs>
+
+    <globals file="globals.xml.ftl" />
+    <execute file="recipe.xml.ftl" />
+ 
+</template>
