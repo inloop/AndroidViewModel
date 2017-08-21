@@ -34,6 +34,9 @@ public class ProxyViewHelper {
         if (genericSuperclass instanceof ParameterizedType) {
             final Type[] typeArgs = ((ParameterizedType) genericSuperclass).getActualTypeArguments();
             for (Type arg : typeArgs) {
+                if (arg instanceof ParameterizedType) {
+                    arg = ((ParameterizedType) arg).getRawType();
+                }
                 if (arg instanceof Class<?>) {
                     final Class<?> argClass = (Class<?>) arg;
                     if (whichExtends.isAssignableFrom(argClass)) {
