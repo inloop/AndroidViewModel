@@ -1,3 +1,7 @@
+## 1.3.2(2017-21-8)
+
+- Updated dependencies (Support library, build tools, gradle)
+
 ## 1.3.1(2017-20-2)
 
 - Critical issue fixed that was introduced two days ago in 1.3.0 - please update to 1.3.1 (issue is related to the new getViewOptional() method).

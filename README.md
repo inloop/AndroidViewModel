@@ -112,7 +112,7 @@ Download
 --------
 
 ```groovy
-compile 'eu.inloop:androidviewmodel:1.3.1'
+compile 'eu.inloop:androidviewmodel:1.3.2'
 ```
 
 ## Android Studio Template
