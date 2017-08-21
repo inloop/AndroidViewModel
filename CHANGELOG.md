@@ -1,3 +1,7 @@
+## 1.3.3(2017-21-8)
+
+- Fix issue where viewmodels with generic types would not work correctly. 
+
 ## 1.3.2(2017-21-8)
 
 - Updated dependencies (Support library, build tools, gradle)
