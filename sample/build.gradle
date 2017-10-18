@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId 'eu.inloop.viewmodel.sample'
@@ -25,15 +25,15 @@ android {
     }
 
     dataBinding {
-        enabled = true;
+        enabled = true
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-fragment:26.0.1'
-    compile 'com.android.support:appcompat-v7:26.0.1'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
+    compile 'com.android.support:support-fragment:26.1.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     compile 'com.jakewharton:butterknife:5.1.2'
     compile project(':library')
 }

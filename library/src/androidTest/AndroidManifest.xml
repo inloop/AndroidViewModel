@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="eu.inloop.viewmodel" >
+
+    <application>
+        <activity android:name=".fixture.activity.VMTestActivity" android:theme="@style/Theme.AppCompat" />
+    </application>
+</manifest>

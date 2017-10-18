@@ -3,7 +3,7 @@ apply plugin: 'maven'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 15
@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName VERSION_NAME
         consumerProguardFiles 'proguard-rules.pro'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -20,13 +21,17 @@ android {
     }
 
     dataBinding {
-        enabled = true;
+        enabled = true
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-fragment:26.0.1'
-    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:support-fragment:26.1.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test:rules:1.0.1'
 }
 
 task androidJavadocs(type: Javadoc) {
