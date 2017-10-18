@@ -2,9 +2,12 @@ package eu.inloop.viewmodel;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Create and keep this class inside your Activity. Store it
@@ -47,6 +50,12 @@ public class ViewModelProvider {
 
     public synchronized void removeAllViewModels() {
         mViewModelCache.clear();
+    }
+
+    @VisibleForTesting
+    @NonNull
+    Map<String, AbstractViewModel<? extends IView>> getViewModels() {
+        return Collections.unmodifiableMap(mViewModelCache);
     }
 
     @SuppressWarnings("unchecked")
