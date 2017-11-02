@@ -33,7 +33,7 @@ public class SampleBundleFragment extends ViewModelBaseFragment<IView, SampleArg
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
         setModelView(this);
     }
 }

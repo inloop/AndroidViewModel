@@ -36,7 +36,7 @@ public abstract class ViewModelBaseBindingFragment<T extends IView, R extends Ab
     }
 
     @SuppressWarnings("unused")
-    @NonNull
+    @Nullable
     public B getBinding() {
         try {
             return (B) getViewModelHelper().getBinding();
