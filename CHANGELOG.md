@@ -1,25 +1,29 @@
-## 1.3.3(2017-21-8)
+## 1.3.3(2017-11-02)
+
+- Update Gradle plugin. Fix Nullable annotation in getBinding().
+
+## 1.3.3(2017-08-21)
 
 - Fix issue where viewmodels with generic types would not work correctly. 
 
-## 1.3.2(2017-21-8)
+## 1.3.2(2017-08-21)
 
 - Updated dependencies (Support library, build tools, gradle)
 
-## 1.3.1(2017-20-2)
+## 1.3.1(2017-02-20)
 
 - Critical issue fixed that was introduced two days ago in 1.3.0 - please update to 1.3.1 (issue is related to the new getViewOptional() method).
 
-## 1.3.0(2017-18-2)
+## 1.3.0(2017-02-18)
 
 - Added ``getViewOptional()`` method which is guaranteed to be non-null. It will return a dummy implemenation in case the View is not null.
 - Removed the need to override ```getViewModelClass```, the ViewModel class is now automatically extracted from the ViewModel class definition.
 
-## 1.2.3(2017-4-1)
+## 1.2.3(2017-01-4)
 
 - Fix ProGuard settings.
 
-## 1.2.2(2017-2-1)
+## 1.2.2(2017-01-02)
 
 - Remove wrong jetbrains annotations import. 
 
