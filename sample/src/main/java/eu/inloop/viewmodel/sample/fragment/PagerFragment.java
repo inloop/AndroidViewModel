@@ -1,6 +1,7 @@
 package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +29,12 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_pager, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((TextView)view.findViewById(R.id.text)).setText(Integer.toString(getArguments().getInt("position")));
         setModelView(this);
@@ -44,7 +45,7 @@ public class PagerFragment extends ViewModelBaseFragment<IPageView, PageModel> i
         super.onDestroy();
 
         // watch for memory leaks
-        RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
+        RefWatcher refWatcher = SampleApplication.getRefWatcher(requireActivity());
         refWatcher.watch(this);
     }
 }

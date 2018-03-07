@@ -25,7 +25,7 @@ public abstract class ViewModelBaseBindingFragment<T extends IView, R extends Ab
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getViewModelHelper().performBinding(this);
         final ViewDataBinding binding = getViewModelHelper().getBinding();
         if (binding != null) {

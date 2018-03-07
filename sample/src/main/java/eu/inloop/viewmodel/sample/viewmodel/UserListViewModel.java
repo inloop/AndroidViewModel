@@ -1,5 +1,6 @@
 package eu.inloop.viewmodel.sample.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,6 +46,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void loadUsers() {
         mLoadingUsers = true;
         mCurrentLoadingProgress = 0;
@@ -86,6 +88,7 @@ public class UserListViewModel extends AbstractViewModel<IUserListView> {
         }.execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void deleteUser(final int position) {
         if (position > mLoadedUsers.size() - 1) {
             return;

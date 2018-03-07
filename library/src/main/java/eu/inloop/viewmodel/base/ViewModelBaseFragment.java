@@ -29,7 +29,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
             //noinspection unchecked
             viewModelClass = (Class<? extends AbstractViewModel<T>>) ProxyViewHelper.getGenericType(getClass(), AbstractViewModel.class);
         }
-        getViewModelHelper().onCreate(getActivity(), savedInstanceState, viewModelClass, getArguments());
+        getViewModelHelper().onCreate(requireActivity(), savedInstanceState, viewModelClass, getArguments());
     }
 
     @CallSuper
@@ -94,7 +94,7 @@ public abstract class ViewModelBaseFragment<T extends IView, R extends AbstractV
 
     @Override
     public void removeViewModel() {
-        mViewModelHelper.removeViewModel(getActivity());
+        mViewModelHelper.removeViewModel(requireActivity());
     }
 
     /**
