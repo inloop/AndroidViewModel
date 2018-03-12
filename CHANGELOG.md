@@ -1,4 +1,8 @@
-## 1.3.3(2017-11-02)
+## 1.3.5(2018-03-07)
+
+- Updated dependencies (Support library, build tools, Gradle).
+
+## 1.3.4(2017-11-02)
 
 - Update Gradle plugin. Fix Nullable annotation in getBinding().
 

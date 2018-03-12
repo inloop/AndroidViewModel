@@ -48,11 +48,6 @@ public class ProxyViewHelper {
         return null;
     }
 
-    private static final InvocationHandler sInvocationHandler = new InvocationHandler() {
-        @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            return null;
-        }
-    };
+    private static final InvocationHandler sInvocationHandler = (proxy, method, args) -> null;
 
 }

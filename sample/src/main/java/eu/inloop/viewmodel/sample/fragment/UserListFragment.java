@@ -2,6 +2,7 @@ package eu.inloop.viewmodel.sample.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,11 +45,11 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
+        mAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_userlist, container, false);
         ButterKnife.bind(this, view);
 
@@ -56,34 +57,34 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         headerView.findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.root_content, SampleBundleFragment.newInstance(1234), "empty-fragment").addToBackStack(null).commit();
+                requireFragmentManager().beginTransaction().replace(R.id.root_content, SampleBundleFragment.newInstance(1234), "empty-fragment").addToBackStack(null).commit();
             }
         });
         headerView.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().finish();
-                getActivity().startActivity(getActivity().getIntent());
+                requireActivity().finish();
+                requireActivity().startActivity(requireActivity().getIntent());
             }
         });
         headerView.findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), ViewPagerActivity.class));
+                startActivity(new Intent(requireContext(), ViewPagerActivity.class));
             }
         });
         mListview.addHeaderView(headerView, null, false);
         mOpenBindingFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(SampleBindingActivity.newIntent(getActivity()));
+                startActivity(SampleBindingActivity.newIntent(requireActivity()));
             }
         });
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListview.setAdapter(mAdapter);
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -120,7 +121,7 @@ public class UserListFragment extends ViewModelBaseFragment<IUserListView, UserL
         super.onDestroy();
 
         // watch for memory leaks
-        RefWatcher refWatcher = SampleApplication.getRefWatcher(getActivity());
+        RefWatcher refWatcher = SampleApplication.getRefWatcher(requireActivity());
         refWatcher.watch(this);
     }
 }

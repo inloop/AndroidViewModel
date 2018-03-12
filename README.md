@@ -1,6 +1,12 @@
 AndroidViewModel
 ================
 
+<b>Important notice: Deprecated</b>
+--------
+<b>This library served it's purpose for over 3 years. We believe that Google's Android [Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) are the preferred setup now for new projects. </b>
+<b>[INLOOPX](http://www.inloopx.com) is dedicated to continue maintaining this library (no deadline on support end). So rest assured that your existing projects don't need be migrated from AndroidViewModel because of this deprecation. We are only stopping new feature development and don't recommend using it for new projects.</b>
+
+
 Separating data and state handling from Fragments or Activities without lots of boilerplate-code. Reducing them to simple <i>dumb views</i>.
 
 <b>Basic idea behind this library</b>.
@@ -87,7 +93,7 @@ Data binding is supported - extend [ViewModelBaseBindingFragment.java](library/s
    ``` java
    @Override
    public ViewModelBindingConfig getViewModelBindingConfig() {
-      return new ViewModelBindingConfig(R.layout.fragment_sample_binding, getActivity());
+      return new ViewModelBindingConfig(R.layout.fragment_sample_binding, requireActivity());
    }
    ```
 
@@ -112,7 +118,7 @@ Download
 --------
 
 ```groovy
-compile 'eu.inloop:androidviewmodel:1.3.4'
+compile 'eu.inloop:androidviewmodel:1.3.5'
 ```
 
 ## Android Studio Template
