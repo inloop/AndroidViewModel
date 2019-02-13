@@ -1,7 +1,7 @@
 package eu.inloop.viewmodel.sample.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import eu.inloop.viewmodel.IView;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
-import eu.inloop.viewmodel.binding.ViewModelBindingConfig;
 import eu.inloop.viewmodel.sample.R;
 import eu.inloop.viewmodel.sample.viewmodel.SampleArgumentViewModel;
 

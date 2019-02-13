@@ -1,8 +1,8 @@
 package eu.inloop.viewmodel.sample.viewmodel;
 
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 import eu.inloop.viewmodel.sample.viewmodel.view.ISampleBindingView;

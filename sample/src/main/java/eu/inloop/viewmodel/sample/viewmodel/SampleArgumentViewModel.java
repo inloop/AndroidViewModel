@@ -1,7 +1,7 @@
 package eu.inloop.viewmodel.sample.viewmodel;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import eu.inloop.viewmodel.AbstractViewModel;

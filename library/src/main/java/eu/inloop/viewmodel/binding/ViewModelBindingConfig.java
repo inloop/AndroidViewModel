@@ -1,8 +1,8 @@
 package eu.inloop.viewmodel.binding;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 import eu.inloop.viewmodel.BR;
 

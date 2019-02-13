@@ -1,9 +1,9 @@
 package eu.inloop.viewmodel;
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.FragmentActivity;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import java.util.Map;
 
 /**
  * Create and keep this class inside your Activity. Store it
- * in {@link android.support.v4.app.FragmentActivity#onRetainCustomNonConfigurationInstance()
- * and restore in {@link android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)} before
+ * in {@link androidx.core.app.FragmentActivity#onRetainCustomNonConfigurationInstance()
+ * and restore in {@link androidx.core.app.FragmentActivity#onCreate(android.os.Bundle)} before
  * calling the super implemenentation.
  */
 public class ViewModelProvider {

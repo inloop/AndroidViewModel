@@ -1,7 +1,7 @@
 package eu.inloop.viewmodel;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import eu.inloop.viewmodel.base.ViewModelBaseActivity;
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;

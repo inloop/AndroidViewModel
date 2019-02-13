@@ -1,6 +1,6 @@
 package eu.inloop.viewmodel;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Your {@link android.app.Activity} must implement this interface if
