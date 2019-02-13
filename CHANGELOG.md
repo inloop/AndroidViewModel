@@ -1,3 +1,7 @@
+## 1.4.0(2019-02-13)
+
+- Migrate to AndroidX
+
 ## 1.3.5(2018-03-07)
 
 - Updated dependencies (Support library, build tools, Gradle).
